@@ -1,0 +1,36 @@
+.routes-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 25px;
+  margin-top: 40px;
+}
+
+.route-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 30px;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  min-height: 120px;
+}
+
+.route-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(102, 126, 234, 0.4);
+}
+
+.route-text {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.route-arrow {
+  font-size: 2rem;
+  opacity: 0.8;
+}
