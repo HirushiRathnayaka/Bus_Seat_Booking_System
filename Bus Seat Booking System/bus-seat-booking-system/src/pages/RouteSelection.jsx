@@ -53,7 +53,7 @@ export default function RouteSelection() {
             onClick={() => nav(`/buses/${r.id}`)}
           >
             <span className="route-text">{r.fromCity}</span>
-            <span className="route-arrow">→</span>
+            <span className="route-arrow"></span>
             <span className="route-text">{r.toCity}</span>
           </div>
         ))}

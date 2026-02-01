@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8080/api/admin";
+const API_URL = "http://localhost:8083/api/admin";
 
 const api = axios.create({
   baseURL: API_URL,
@@ -11,14 +11,23 @@ const api = axios.create({
 
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+    const { username, password } = getAdminCreds();
+
+    if (username && password) {
+      const basic = btoa(username + ":" + password);
+      config.headers.Authorization = "Basic " + basic;
     }
+
     return config;
   },
   (error) => Promise.reject(error)
 );
+
+// Test endpoint
+export const adminHello = async () => {
+  const response = await api.get("/hello");
+  return response.data;
+};
 
 export const getDashboardStats = async () => {
   try {

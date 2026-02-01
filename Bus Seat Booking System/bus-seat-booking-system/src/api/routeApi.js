@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:8080/api/routes";
+const BASE_URL = "http://localhost:8083/api/routes";
 
 export const getAllRoutes = async () => {
   try {

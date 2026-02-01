@@ -31,22 +31,24 @@ const Home = () => {
     navigate(`/buses/${routeId}`);
   };
 
+  // state loading
   if (loading) {
     return (
       <div className="page">
-        <div style={{ textAlign: 'center', padding: '40px' }}>
-          <p className="loading-text">Loading routes...</p>
+        <div className="container" style={{ textAlign: "center" }}>
+          <p className="page-subtitle">Loading routes...</p>
         </div>
       </div>
     );
   }
 
+  // eror state
   if (error) {
     return (
       <div className="page">
-        <div style={{ textAlign: 'center', padding: '40px' }}>
-          <p className="error-text">{error}</p>
-          <button onClick={loadRoutes} style={{ marginTop: '20px' }}>
+        <div className="container" style={{ textAlign: "center" }}>
+          <p className="page-subtitle">{error}</p>
+          <button className="btn-primary" onClick={loadRoutes}>
             Try Again
           </button>
         </div>
@@ -54,40 +56,49 @@ const Home = () => {
     );
   }
 
+  // main ui
   return (
     <div className="page">
-      <h1>🚌 Bus Seat Booking System</h1>
-      <p className="subtitle">Select your route to continue</p>
-      
-      <div className="route-list">
-        {routes.length === 0 ? (
-          <div style={{ textAlign: 'center', width: '100%', padding: '40px' }}>
-            <p>No routes available at the moment. Please check back later.</p>
-            <button onClick={loadRoutes} style={{ marginTop: '20px' }}>
-              Refresh
-            </button>
-          </div>
-        ) : (
-          routes.map((route) => (
-            <div key={route.id} className="route-card">
-              <div style={{ flex: 1 }}>
-                <h3>{route.fromCity} → {route.toCity}</h3>
-                <p style={{ color: "#666", marginTop: "5px" }}>
-                  Multiple buses available
-                </p>
-              </div>
-              <button onClick={() => handleSelectRoute(route.id)}>
-                Select Route
+      <div className="container">
+        <h1 className="page-title floating-title">
+          <span className="bus-icon">🚌</span>
+          <span className="title-text"> Bus Seat Booking System</span>
+        </h1>
+        <p className="page-subtitle">Select your route to continue</p>
+
+        <div className="route-list">
+          {routes.length === 0 ? (
+            <div style={{ textAlign: "center", padding: "40px", color: "white" }}>
+              <p>No routes available at the moment.</p>
+              <button className="btn-primary" onClick={loadRoutes}>
+                Refresh
               </button>
             </div>
-          ))
-        )}
-      </div>
-      
-      <div style={{ marginTop: "40px", textAlign: "center" }}>
-        <button onClick={() => navigate("/admin")}>
-          Admin Dashboard
-        </button>
+          ) : (
+            routes.map((route) => (
+              <div key={route.id} className="route-card">
+                <div className="route-left">
+                  <div className="route-name">
+                    {route.fromCity} → {route.toCity}
+                  </div>
+                  <div className="route-meta">
+                    Multiple buses available
+                  </div>
+                </div>
+
+                <div className="route-right">
+                  <span className="badge">Route #{route.id}</span>
+                  <button
+                    className="btn-primary"
+                    onClick={() => handleSelectRoute(route.id)}
+                  >
+                    Select Route →
+                  </button>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
       </div>
     </div>
   );

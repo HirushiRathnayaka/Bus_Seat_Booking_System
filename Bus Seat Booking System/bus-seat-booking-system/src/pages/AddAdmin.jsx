@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import "../styles/main.css";
 
+
 export default function AddAdmin() {
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
@@ -94,13 +95,17 @@ export default function AddAdmin() {
       };
       
       // Call API to create admin
-      const response = await fetch("http://localhost:8080/api/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newAdmin)
-      });
+      const response = await fetch("http://localhost:8081/api/admin/create-admin", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    Authorization: "Basic " + btoa(
+      localStorage.getItem("adminUser") + ":" + localStorage.getItem("adminPass")
+    ),
+  },
+  body: JSON.stringify(newAdmin),
+});
+
       
       const data = await response.json();
       

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8080/api/seats";
+const API_URL = "http://localhost:8083/api/seats";
 
 export const getSeatsByBus = async (busId) => {
   try {

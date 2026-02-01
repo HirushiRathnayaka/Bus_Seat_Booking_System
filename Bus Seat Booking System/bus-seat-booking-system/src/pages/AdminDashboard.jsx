@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useContext } from "react";
 import { getAllBookings } from "../api/bookingApi";
 import { AuthContext } from "../context/AuthContext";
-import { useContext } from "react";
+import AddScheduleModal from "./AddScheduleModal";
+import MarkSeatsModal from "./MarkSeatsModal";
 import { Link } from "react-router-dom";
 import "../styles/main.css";
 
@@ -10,6 +11,15 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const { user } = useContext(AuthContext);
+// dropdown state
+  const [openMenu, setOpenMenu] = useState(false);
+  const menuRef = useRef(null);
+
+
+  
+// model state
+  const [showSchedule, setShowSchedule] = useState(false);
+  const [showMarkSeats, setShowMarkSeats] = useState(false);
 
   useEffect(() => {
     const fetchBookings = async () => {
@@ -41,6 +51,26 @@ export default function AdminDashboard() {
     return date.toLocaleDateString() + " " + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   };
 
+  const todayCount = bookings.filter((b) => {
+    const bookingDate = new Date(b.bookingDate);
+    const today = new Date();
+    return bookingDate.toDateString() === today.toDateString();
+  }).length;
+
+  const uniqueUsers = new Set(bookings.map((b) => b.user?.id).filter(Boolean)).size;
+
+  // when clike outside, close dropdown
+  useEffect(() => {
+    const handler = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setOpenMenu(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
+
+
   if (loading) {
     return (
       <div className="page">
@@ -56,7 +86,7 @@ export default function AdminDashboard() {
       <div className="page">
         <div style={{ textAlign: 'center', padding: '40px' }}>
           <p className="error-text">{error}</p>
-          <button onClick={() => window.location.reload()} style={{ marginTop: '20px' }}>
+          <button className="btn-primary" onClick={() => window.location.reload()}>
             Retry
           </button>
         </div>
@@ -65,35 +95,79 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="page">
-      <div style={{ 
-        display: "flex", 
-        justifyContent: "space-between", 
-        alignItems: "center",
-        marginBottom: "20px" 
-      }}>
+    <div className="page admin-page">
+      {/* Header */}
+      <div className="admin-header">
         <div>
-          <h1>📊 Admin Dashboard</h1>
-          <p style={{ color: "#666" }}>
-            Welcome, <strong>{user?.username || "Admin"}</strong>
+          <h1 className="admin-title">
+            <span className="admin-title-icon">📊</span>
+            Admin Dashboard
+          </h1>
+          <p className="admin-subtitle">
+            Welcome, <b>{user?.username || "Admin"}</b>
           </p>
         </div>
-        
-        {/* Add Admin Button - Only show for admins */}
-        {user?.role === "ADMIN" && (
-          <Link to="/add-admin">
-            <button style={{ 
-              background: "linear-gradient(135deg, #28a745 0%, #20c997 100%)",
-              display: "flex",
-              alignItems: "center",
-              gap: "8px"
-            }}>
-              <span style={{ fontSize: "1.2rem" }}>➕</span>
-              Add New Admin
-            </button>
-          </Link>
-        )}
       </div>
+
+      <div className="admin-actions" ref={menuRef}>
+          <button
+            className="btn-ghost"
+            onClick={() => setOpenMenu((s) => !s)}
+            type="button"
+          >
+            ⚙️ Admin Actions ▾
+          </button>
+
+          {openMenu && (
+            <div className="admin-dropdown">
+              <button
+                className="dropdown-item"
+                onClick={() => {
+                  setOpenMenu(false);
+                  setShowSchedule(true);
+                }}
+                type="button"
+              >
+                ➕ Add Bus Schedule
+              </button>
+
+              <button
+                className="dropdown-item"
+                onClick={() => {
+                  setOpenMenu(false);
+                  setShowMarkSeats(true);
+                }}
+                type="button"
+              >
+                🪑 Mark Seats
+              </button>
+            </div>
+          )}
+        </div>
+
+      {/* Modals */}
+      {showSchedule && <AddScheduleModal onClose={() => setShowSchedule(false)} />}
+      {showMarkSeats && (
+          <MarkSeatsModal onClose={() => setShowMarkSeats(false)} />
+      )}
+       
+       {/* Stats section */}
+      <div className="admin-stats">
+        <div className="stat-card stat-purple">
+          <div className="stat-label">Total Bookings</div>
+          <div className="stat-value">{bookings.length}</div>
+        </div>
+
+        <div className="stat-card stat-pink">
+          <div className="stat-label">Active Today</div>
+          <div className="stat-value">{todayCount}</div>
+        </div>
+
+        <div className="stat-card stat-blue">
+          <div className="stat-label">Unique Users</div>
+          <div className="stat-value">{uniqueUsers}</div>
+        </div>
+      </div> 
       
       {/* Admin Quick Actions */}
       {user?.role === "ADMIN" && (
@@ -164,149 +238,67 @@ export default function AdminDashboard() {
         </div>
       )}
       
-      {/* Statistics Section */}
-      <div style={{ 
-        display: "grid", 
-        gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", 
-        gap: "20px", 
-        marginBottom: "30px" 
-      }}>
-        <div style={{ 
-          background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)", 
-          color: "white", 
-          padding: "20px", 
-          borderRadius: "10px",
-          textAlign: "center"
-        }}>
-          <h3>Total Bookings</h3>
-          <p style={{ fontSize: "2.5rem", margin: "10px 0" }}>{bookings.length}</p>
-        </div>
-        
-        <div style={{ 
-          background: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)", 
-          color: "white", 
-          padding: "20px", 
-          borderRadius: "10px",
-          textAlign: "center"
-        }}>
-          <h3>Active Today</h3>
-          <p style={{ fontSize: "2.5rem", margin: "10px 0" }}>
-            {bookings.filter(b => {
-              const bookingDate = new Date(b.bookingDate);
-              const today = new Date();
-              return bookingDate.toDateString() === today.toDateString();
-            }).length}
-          </p>
-        </div>
-        
-        <div style={{ 
-          background: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)", 
-          color: "white", 
-          padding: "20px", 
-          borderRadius: "10px",
-          textAlign: "center"
-        }}>
-          <h3>Unique Users</h3>
-          <p style={{ fontSize: "2.5rem", margin: "10px 0" }}>
-            {new Set(bookings.map(b => b.user?.id).filter(id => id)).size}
-          </p>
-        </div>
-      </div>
-      
       {/* Bookings Table */}
-      <div style={{ marginTop: "30px" }}>
-        <h2>All Bookings</h2>
-        
-        {bookings.length === 0 ? (
-          <div style={{ 
-            textAlign: "center", 
-            padding: "40px", 
-            background: "#f8f9fa", 
-            borderRadius: "10px",
-            marginTop: "20px"
-          }}>
-            <p>No bookings found.</p>
-          </div>
-        ) : (
-          <div style={{ 
-            background: "white", 
-            padding: "20px", 
-            borderRadius: "10px",
-            boxShadow: "0 2px 10px rgba(0,0,0,0.1)",
-            overflowX: "auto",
-            marginTop: "20px"
-          }}>
-            <table style={{ width: "100%", borderCollapse: "collapse" }}>
-              <thead>
-                <tr style={{ background: "#f8f9fa" }}>
-                  <th style={{ padding: "12px", textAlign: "left", borderBottom: "2px solid #ddd" }}>ID</th>
-                  <th style={{ padding: "12px", textAlign: "left", borderBottom: "2px solid #ddd" }}>Passenger</th>
-                  <th style={{ padding: "12px", textAlign: "left", borderBottom: "2px solid #ddd" }}>Contact</th>
-                  <th style={{ padding: "12px", textAlign: "left", borderBottom: "2px solid #ddd" }}>Seat</th>
-                  <th style={{ padding: "12px", textAlign: "left", borderBottom: "2px solid #ddd" }}>Bus</th>
-                  <th style={{ padding: "12px", textAlign: "left", borderBottom: "2px solid #ddd" }}>Booked By</th>
-                  <th style={{ padding: "12px", textAlign: "left", borderBottom: "2px solid #ddd" }}>Date & Time</th>
+      <h2 className="admin-section-title">All Bookings</h2>
+
+      {bookings.length === 0 ? (
+        <div className="admin-empty">
+          <p>No bookings found.</p>
+        </div>
+      ) : (
+        <div className="admin-table-wrap">
+          <table className="admin-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Passenger</th>
+                <th>Contact</th>
+                <th>Seat</th>
+                <th>Bus</th>
+                <th>Booked By</th>
+                <th>Date & Time</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {bookings.map((b) => (
+                <tr key={b.id}>
+                  <td>#{b.id}</td>
+                  <td className="td-strong">{b.passengerName || "N/A"}</td>
+
+                  <td>
+                    <div>{b.phoneNumber || "N/A"}</div>
+                    <div className="td-muted">{b.email || ""}</div>
+                  </td>
+
+                  <td>
+                    <span className="seat-pill">{b.seat?.seatNumber || "N/A"}</span>
+                  </td>
+
+                  <td>{b.bus?.busNumber || "N/A"}</td>
+
+                  <td>
+                    {b.user?.username || "Guest"}
+                    {b.user?.role === "ADMIN" && <span className="role-pill">Admin</span>}
+                  </td>
+
+                  <td className="td-muted">{formatDate(b.bookingDate)}</td>
                 </tr>
-              </thead>
-              <tbody>
-                {bookings.map((b) => (
-                  <tr key={b.id} style={{ borderBottom: "1px solid #eee" }}>
-                    <td style={{ padding: "12px" }}>#{b.id}</td>
-                    <td style={{ padding: "12px", fontWeight: "500" }}>{b.passengerName || "N/A"}</td>
-                    <td style={{ padding: "12px" }}>
-                      <div>{b.phoneNumber || "N/A"}</div>
-                      <div style={{ fontSize: "0.9rem", color: "#666" }}>{b.email || ""}</div>
-                    </td>
-                    <td style={{ padding: "12px" }}>
-                      <span style={{ 
-                        background: "#e7f3ff", 
-                        color: "#007bff", 
-                        padding: "5px 10px", 
-                        borderRadius: "5px",
-                        fontWeight: "bold"
-                      }}>
-                        {b.seat?.seatNumber || "N/A"}
-                      </span>
-                    </td>
-                    <td style={{ padding: "12px" }}>{b.bus?.busNumber || "N/A"}</td>
-                    <td style={{ padding: "12px" }}>
-                      {b.user?.username || "Guest"}
-                      {b.user?.role === "ADMIN" && (
-                        <span style={{ 
-                          background: "#dc3545", 
-                          color: "white", 
-                          fontSize: "0.8rem", 
-                          padding: "2px 6px", 
-                          borderRadius: "3px",
-                          marginLeft: "5px"
-                        }}>
-                          Admin
-                        </span>
-                      )}
-                    </td>
-                    <td style={{ padding: "12px", color: "#666" }}>
-                      {formatDate(b.bookingDate)}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </div>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
       
-      {/* Summary */}
-      <div style={{ 
-        marginTop: "30px", 
-        padding: "20px", 
-        background: "#f8f9fa", 
-        borderRadius: "10px",
-        fontSize: "0.9rem",
-        color: "#666"
-      }}>
-        <p><strong>System Summary:</strong> Showing {bookings.length} booking(s) in the system.</p>
-        <p>Last updated: {new Date().toLocaleString()}</p>
+      {/* Summary-footer */}
+      <div className="admin-footer">
+        <div>
+          <b>System Summary:</b> Showing {bookings.length} booking(s).
+        </div>
+        <div className="td-muted">Last updated: {new Date().toLocaleString()}</div>
       </div>
     </div>
+
+    
   );
 }

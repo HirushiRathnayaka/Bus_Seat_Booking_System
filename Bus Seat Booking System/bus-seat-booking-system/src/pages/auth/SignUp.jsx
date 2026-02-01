@@ -13,7 +13,8 @@ export default function SignUp() {
     lastName: "",
     username: "",
     email: "",
-    password: ""
+    password: "",
+    confirmPassword:""
   });
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -24,22 +25,33 @@ export default function SignUp() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (userData.password !== userData.confirmPassword) {
+    setError("Password do not match");
+    return; // password match for validation
+  }
+
     setError("");
     setSuccess("");
     setLoading(true);
 
     try {
       const data = await register(userData);
+
       setSuccess(`Registration successful! Welcome, ${data.username}`);
       loginUser(data); // optional auto-login
+
       setUserData({
         firstName: "",
         lastName: "",
         username: "",
         email: "",
-        password: ""
+        password: "",
+        confirmPassword:""
+
       });
       setTimeout(() => navigate("/login"), 2000);
+
     } catch (err) {
       console.error("Backend error:", err.response?.data || err);
       setError(
@@ -65,6 +77,8 @@ export default function SignUp() {
           <input name="username" placeholder="Username" value={userData.username} onChange={handleChange} required/>
           <input name="email" type="email" placeholder="Email" value={userData.email} onChange={handleChange} required/>
           <input name="password" type="password" placeholder="Password" value={userData.password} onChange={handleChange} required/>
+          <input name="confirmPassword" type="password" placeholder="ConfirmPassword" value={userData.confirmPassword} onChange={handleChange} required/>
+
 
           <button type="submit" disabled={loading}>
             {loading ? "Registering..." : "Sign Up"}

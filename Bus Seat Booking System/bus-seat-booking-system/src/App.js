@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
+import AdminRoute from "./components/AdminRoute";
 
 // Pages
 import SignIn from './pages/auth/SignIn';
@@ -14,6 +15,10 @@ import BookingForm from './pages/BookingForm';
 import BookingSuccess from './pages/BookingSuccess';
 import AdminDashboard from './pages/AdminDashboard';
 import AddAdmin from './pages/AddAdmin';
+import AdminLogin from "./pages/auth/AdminLogin";
+
+
+
 
 function App() {
   return (
@@ -24,6 +29,7 @@ function App() {
             <Route path="/" element={<Navigate to="/login" />} />
             <Route path="/login" element={<SignIn />} />
             <Route path="/register" element={<SignUp />} />
+            <Route path="/admin/login" element={<AdminLogin />} />
             
             <Route path="/home" element={
               <ProtectedRoute>
@@ -67,19 +73,24 @@ function App() {
               </ProtectedRoute>
             } />
             
-            {/* Admin Routes */}
-            <Route path="/admin" element={
-              <ProtectedRoute>
-                <AdminDashboard />
-              </ProtectedRoute>
-            } />
+
+            <Route
+            path="/admin/dashboard" element=
+            {
+            <ProtectedRoute>
+              <AdminDashboard />
+            </ProtectedRoute>
+            }
+            />
             
             <Route path="/add-admin" element={
-              <ProtectedRoute>
+              <AdminRoute>
                 <AddAdmin />
-              </ProtectedRoute>
+              </AdminRoute>
             } />
             
+            <Route path="*" element={<Navigate to="/admin/dashboard"/>} />
+
             <Route path="*" element={<Navigate to="/home" />} />
           </Routes>
         </div>
