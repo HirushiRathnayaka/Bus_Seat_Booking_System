@@ -7,6 +7,12 @@ import java.util.List;
 
 @Repository
 public interface SeatRepository extends JpaRepository<Seat, Long> {
+
+    //route/ bus view (user side)
     List<Seat> findByBusId(Long busId);
     List<Seat> findByBusIdAndBookedFalse(Long busId);
+
+    // admin side mark seats model
+    List<Seat> findByReservedTrue();
+    List<Seat> findByReservedFalse();
 }

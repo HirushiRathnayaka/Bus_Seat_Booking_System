@@ -1,4 +1,5 @@
 import Seat from "./Seat";
+import "../styles/seat.css";
 
 export default function SeatLayout({ seats, select, selectedSeat }) {
   // Handle undefined or null seats
@@ -19,16 +20,31 @@ export default function SeatLayout({ seats, select, selectedSeat }) {
     );
   }
 
-  return (
-    <div className="seat-grid">
-      {seats.map(s => (
+  const sortedSeats = [...seats].sort((a, b) =>
+    String(a.id).localeCompare(String(b.id), undefined, { numeric: true })
+  );
+
+  const renderSeats2x2 = () => {
+    const out = [];
+    for (let i = 0; i < sortedSeats.length; i++) {
+      // add seat
+      const s = sortedSeats[i];
+      out.push(
         <Seat 
           key={s.id} 
           seat={s} 
           select={select} 
           selected={selectedSeat && selectedSeat.id === s.id}
         />
-      ))}
-    </div>
   );
+
+  const posInRow = (i % 4); // 0,1,2,3
+      if (posInRow === 1) {
+        out.push(<div key={`aisle-${i}`} className="aisle" aria-hidden="true" />);
+      }
+    }
+    return out;
+  };
+
+  return <div className="seat-grid seat-grid--2x2">{renderSeats2x2()}</div>;
 }

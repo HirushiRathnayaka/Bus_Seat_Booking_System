@@ -3,14 +3,25 @@ package com.example.bus_seat_booking.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "seat")
+@Table(
+        name = "seat",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"bus_id", "seatNumber"})
+        }
+)
 public class Seat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String seatNumber;
-    private boolean booked = false;
+
+    @Column(nullable = false)
+    private boolean reserved = false; // admin reserved/cancel
+
+    @Column(nullable = false)
+    private boolean booked = false; // user booking
 
     @ManyToOne
     @JoinColumn(name = "bus_id")
@@ -23,6 +34,7 @@ public class Seat {
     public Seat(String seatNumber, Bus bus) {
         this.seatNumber = seatNumber;
         this.bus = bus;
+        this.reserved = false;
         this.booked = false;
     }
 
@@ -42,6 +54,10 @@ public class Seat {
     public void setSeatNumber(String seatNumber) {
         this.seatNumber = seatNumber;
     }
+
+    public boolean isReserved() {return reserved;}
+
+    public void setReserved(boolean reserved) {this.reserved = reserved;}
 
     public boolean isBooked() {
         return booked;

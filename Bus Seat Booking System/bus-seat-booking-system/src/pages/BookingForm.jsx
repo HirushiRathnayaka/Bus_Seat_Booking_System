@@ -2,7 +2,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { createBooking } from "../api/bookingApi";
 import { useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
-import "../styles/main.css";
+import "../styles/BookingForm.css";
+
 
 export default function BookingForm() {
   const { state } = useLocation();
@@ -47,71 +48,73 @@ export default function BookingForm() {
   };
 
   return (
-    <div className="page">
-      <h2>Confirm Booking</h2>
-      
-      {state?.seat && (
-        <div style={{ 
-          background: "#f8f9fa", 
-          padding: "20px", 
-          borderRadius: "10px", 
-          marginBottom: "20px" 
-        }}>
-          <h3>Booking Summary</h3>
+  <div className="page bookingPage">
+    <h2 className="bookingTitle">Confirm Booking</h2>
+
+    {state?.seat && (
+      <div className="bookingSummaryWhite">
+        <h3 className="bookingSummaryTitle">Booking Summary</h3>
+        <div className="bookingSummaryGrid">
           <p><strong>Selected Seat:</strong> {state.seat.seatNumber}</p>
           <p><strong>Bus:</strong> BUS{state.busId}</p>
         </div>
-      )}
-      
-      {error && (
-        <div style={{ 
-          background: "#fee", 
-          color: "#dc3545", 
-          padding: "15px", 
-          borderRadius: "10px", 
-          marginBottom: "20px" 
-        }}>
-          {error}
-        </div>
-      )}
-      
-      <div style={{ maxWidth: "500px", margin: "0 auto" }}>
-        <input 
-          placeholder="Passenger Name *" 
+      </div>
+    )}
+
+    {error && (
+      <div className="bookingErrorCard">
+        {error}
+      </div>
+    )}
+
+    <div className="bookingFormCard">
+      <div className="bookingFormGrid">
+        <input
+          className="bookingInput"
+          placeholder="Passenger Name *"
           value={name}
-          onChange={e => setName(e.target.value)} 
+          onChange={(e) => setName(e.target.value)}
           required
         />
-        
-        <input 
-          placeholder="Phone Number *" 
+
+        <input
+          className="bookingInput"
+          placeholder="Phone Number *"
           value={phone}
-          onChange={e => setPhone(e.target.value)} 
+          onChange={(e) => setPhone(e.target.value)}
           type="tel"
           required
         />
-        
-        <input 
-          placeholder="Email" 
+
+        <input
+          className="bookingInput bookingInputFull"
+          placeholder="Email"
           value={email}
-          onChange={e => setEmail(e.target.value)} 
+          onChange={(e) => setEmail(e.target.value)}
           type="email"
         />
-        
-        <button 
-          onClick={submit} 
-          disabled={loading}
-          style={{ width: "100%", marginTop: "10px" }}
-        >
-          {loading ? "Processing..." : "Confirm Booking"}
-        </button>
       </div>
-      
-      <div style={{ marginTop: "30px", textAlign: "center" }}>
-        <button onClick={() => nav(-1)} style={{ background: "#6c757d" }}>
-          Back to Seat Selection
-        </button>
-      </div>
+
+      <button
+        className="btn-primary bookingBtnFull"
+        onClick={submit}
+        disabled={loading}
+        type="button"
+      >
+        {loading ? "Processing..." : "Confirm Booking"}
+      </button>
     </div>
-  );
+
+    <div className="bookingFooter">
+      <button
+        className="btn-ghost"
+        onClick={() => nav(-1)}
+        type="button"
+      >
+        Back to Seat Selection
+      </button>
+    </div>
+  </div>
+);
+
 }

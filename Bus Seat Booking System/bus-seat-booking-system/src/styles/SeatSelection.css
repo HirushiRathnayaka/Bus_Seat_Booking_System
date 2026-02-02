@@ -1,0 +1,139 @@
+/* ===== Seat Selection page (matches your main.css theme) ===== */
+
+.seatPage{
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* header row */
+.seatHeaderRow{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+/* gradient title like home */
+.seatTitle{
+  margin: 0;
+  font-size: clamp(32px, 5vw, 48px);
+  font-weight: 900;
+  letter-spacing: -0.4px;
+
+  background: linear-gradient(135deg, #f7f6f6 0%, #92c3d1 35%, #d7f5ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+
+  text-align: center; 
+  width: 100%;         
+  
+}
+
+/* center messages */
+.seatCenterMsg{
+  text-align: center;
+  padding: 40px;
+}
+
+/* glass cards */
+.seatInfoCard,
+.seatLegendCard,
+.selectedSeatCard{
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.16);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+  padding: 16px 16px;
+  margin-bottom: 16px;
+  color: #fff;
+}
+
+/* bus info lines */
+.seatInfoLine{
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 2px;
+}
+.seatInfoLabel{
+  opacity: .8;
+  font-weight: 700;
+}
+.seatInfoValue{
+  font-weight: 900;
+}
+
+/* legend */
+.seatLegendTitle{
+  margin: 0 0 10px;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+}
+.seatLegendRow{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 18px;
+  padding-top: 6px;
+}
+.seatLegendItem{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.seatLegendText{
+  color: #fff;
+  font-weight: 400;
+}
+
+/* swatches */
+.seatSwatch{
+  width: 18px;
+  height: 18px;
+  border-radius: 6px;
+  display: inline-block;
+}
+.seatSwatch--available{ background: #27c46a; }
+.seatSwatch--booked{ background: #ff4a5a; }
+.seatSwatch--selected{ background: #2b8cff; }
+
+/* seat layout wrap */
+.seatLayoutWrap{
+  margin-top: 6px;
+}
+
+/* selected seat card */
+.selectedSeatCard{
+  text-align: center;
+  padding: 18px;
+  margin-top: 18px;
+}
+.selectedSeatTitle{
+  margin: 0 0 12px;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 900;
+}
+.selectedSeatNo{
+  color: #fff;
+  text-decoration: underline;
+}
+
+/* footer */
+.seatFooter{
+  margin-top: 24px;
+  display: flex;
+  justify-content: center;
+}
+
+/* Responsive */
+@media (max-width: 700px){
+  .seatHeaderRow{
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

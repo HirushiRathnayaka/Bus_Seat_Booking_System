@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import SeatLayout from "../components/SeatLayout";
 import { getSeatsByBus } from "../api/seatApi";
 import "../styles/main.css";
+import "../styles/SeatSelection.css"; // ✅ new css
 
 export default function SeatSelection() {
   const { busId } = useParams();
@@ -18,18 +19,15 @@ export default function SeatSelection() {
       try {
         setLoading(true);
         setError("");
-        
-        // Fetch seats
+
         const response = await getSeatsByBus(busId);
         const seatsData = response.data || [];
         setSeats(seatsData);
-        
-        // Set bus info
+
         setBusInfo({
           busNumber: `BUS-${busId}`,
-          departureTime: "08:00 AM"
+          departureTime: "08:00 AM",
         });
-        
       } catch (error) {
         console.error("Error fetching seats:", error);
         setError("Failed to load seats. Please try again.");
@@ -38,20 +36,18 @@ export default function SeatSelection() {
         setLoading(false);
       }
     };
-    
+
     fetchData();
   }, [busId]);
 
   const handleSeatSelect = (seat) => {
-    if (!seat.booked) {
-      setSelectedSeat(seat);
-    }
+    if (!seat.booked) setSelectedSeat(seat);
   };
 
   if (loading) {
     return (
-      <div className="page">
-        <div style={{ textAlign: 'center', padding: '40px' }}>
+      <div className="page seatPage">
+        <div className="seatCenterMsg">
           <p className="loading-text">Loading seats...</p>
         </div>
       </div>
@@ -60,10 +56,10 @@ export default function SeatSelection() {
 
   if (error) {
     return (
-      <div className="page">
-        <div style={{ textAlign: 'center', padding: '40px' }}>
+      <div className="page seatPage">
+        <div className="seatCenterMsg">
           <p className="error-text">{error}</p>
-          <button onClick={() => nav(-1)} style={{ marginTop: '20px' }}>
+          <button className="btn-primary" onClick={() => nav(-1)} style={{ marginTop: 14 }}>
             Go Back
           </button>
         </div>
@@ -72,65 +68,68 @@ export default function SeatSelection() {
   }
 
   return (
-    <div className="page">
-      <h2>Select Seat</h2>
-      
+    <div className="page seatPage">
+      <div className="seatHeaderRow">
+
+        <h2 className="seatTitle">Select Seat</h2>
+      </div>
+
       {busInfo && (
-        <div style={{ 
-          background: "#f8f9fa", 
-          padding: "15px", 
-          borderRadius: "10px", 
-          marginBottom: "20px" 
+        <div className="bus-info-white" style={{
+          background: "#f8f9fa",
+          padding: "15px",
+          borderRadius: "10px",
+          marginBottom: "20px"
         }}>
           <p><strong>Bus:</strong> {busInfo.busNumber}</p>
           <p><strong>Departure:</strong> {busInfo.departureTime}</p>
         </div>
       )}
-      
-      <div style={{ textAlign: "center", marginBottom: "20px" }}>
-        <h3>Seat Legend</h3>
-        <div style={{ display: "flex", justifyContent: "center", gap: "20px", marginTop: "10px" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
-            <div style={{ width: "20px", height: "20px", background: "#28a745", borderRadius: "5px" }}></div>
-            <span>Available</span>
+
+
+      <div className="seatLegendCard">
+        <h3 className="seatLegendTitle">Seat Legend</h3>
+
+        <div className="seatLegendRow">
+          <div className="seatLegendItem">
+            <span className="seatSwatch seatSwatch--available" />
+            <span className="seatLegendText">Available</span>
           </div>
-          <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
-            <div style={{ width: "20px", height: "20px", background: "#dc3545", borderRadius: "5px" }}></div>
-            <span>Booked</span>
+
+          <div className="seatLegendItem">
+            <span className="seatSwatch seatSwatch--booked" />
+            <span className="seatLegendText">Booked</span>
           </div>
-          <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
-            <div style={{ width: "20px", height: "20px", background: "#007bff", borderRadius: "5px" }}></div>
-            <span>Selected</span>
+
+          <div className="seatLegendItem">
+            <span className="seatSwatch seatSwatch--selected" />
+            <span className="seatLegendText">Selected</span>
           </div>
         </div>
       </div>
-      
-      <SeatLayout 
-        seats={seats} 
-        select={handleSeatSelect} 
-        selectedSeat={selectedSeat} 
-      />
-      
+
+      <div className="seatLayoutWrap">
+        <SeatLayout seats={seats} select={handleSeatSelect} selectedSeat={selectedSeat} />
+      </div>
+
       {selectedSeat && (
-        <div style={{ 
-          background: "#e7f3ff", 
-          padding: "20px", 
-          borderRadius: "10px", 
-          marginTop: "30px",
-          textAlign: "center" 
-        }}>
-          <h3>Selected Seat: {selectedSeat.seatNumber}</h3>
-          <button 
+        <div className="selectedSeatCard">
+          <h3 className="selectedSeatTitle">
+            Selected Seat: <span className="selectedSeatNo">{selectedSeat.seatNumber}</span>
+          </h3>
+
+          <button
+            className="btn-primary"
             onClick={() => nav("/booking", { state: { seat: selectedSeat, busId: busId } })}
-            style={{ marginTop: "10px", padding: "10px 20px", fontSize: "16px" }}
+            type="button"
           >
-            Continue to Booking
+            Continue to Booking →
           </button>
         </div>
       )}
-      
-      <div style={{ marginTop: "30px", textAlign: "center" }}>
-        <button onClick={() => nav(-1)}>
+
+      <div className="seatFooter">
+        <button className="btn-ghost" onClick={() => nav(-1)} type="button">
           Back to Buses
         </button>
       </div>

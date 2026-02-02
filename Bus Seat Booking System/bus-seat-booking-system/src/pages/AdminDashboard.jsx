@@ -3,6 +3,7 @@ import { getAllBookings } from "../api/bookingApi";
 import { AuthContext } from "../context/AuthContext";
 import AddScheduleModal from "./AddScheduleModal";
 import MarkSeatsModal from "./MarkSeatsModal";
+import DeleteScheduleModal from "./DeleteScheduleModal";
 import { Link } from "react-router-dom";
 import "../styles/main.css";
 
@@ -15,11 +16,12 @@ export default function AdminDashboard() {
   const [openMenu, setOpenMenu] = useState(false);
   const menuRef = useRef(null);
 
-
+ 
   
 // model state
   const [showSchedule, setShowSchedule] = useState(false);
   const [showMarkSeats, setShowMarkSeats] = useState(false);
+  const [showDeleteSchedule, setShowDeleteSchedule] = useState(false);
 
   useEffect(() => {
     const fetchBookings = async () => {
@@ -141,15 +143,35 @@ export default function AdminDashboard() {
               >
                 🪑 Mark Seats
               </button>
+
+              <button
+                className="dropdown-item danger"
+                onClick={() => {
+                setOpenMenu(false);
+                setShowDeleteSchedule(true);
+              }}
+              type="button"
+              >
+                🗑️ Delete Bus Schedule
+              </button>
+
+              
             </div>
           )}
         </div>
 
       {/* Modals */}
-      {showSchedule && <AddScheduleModal onClose={() => setShowSchedule(false)} />}
+      {showSchedule && (
+          <AddScheduleModal onClose={() => setShowSchedule(false)} />
+      )}
       {showMarkSeats && (
           <MarkSeatsModal onClose={() => setShowMarkSeats(false)} />
       )}
+
+      {showDeleteSchedule && (
+          <DeleteScheduleModal onClose={() => setShowDeleteSchedule(false)} />
+      )}
+
        
        {/* Stats section */}
       <div className="admin-stats">

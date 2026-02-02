@@ -1,0 +1,121 @@
+/* ===== Confirm Booking Page ===== */
+.bookingPage{
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Title same vibe as seatTitle */
+.bookingTitle{
+  margin: 0 0 14px;
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 900;
+  letter-spacing: -0.5px;
+  background: linear-gradient(135deg, #f7f6f6 0%, #92c3d1 35%, #d7f5ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-align: left;
+}
+
+/* Keep summary box WHITE (as you wanted / screenshot) */
+.bookingSummaryWhite{
+  background: #f8f9fa;
+  border-radius: 14px;
+  padding: 22px 22px;
+  margin-bottom: 18px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.20);
+}
+
+.bookingSummaryTitle{
+  margin: 0 0 12px;
+  font-size: 20px;
+  font-weight: 900;
+  color: #111;
+}
+
+.bookingSummaryGrid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 24px;
+}
+
+.bookingSummaryWhite p{
+  margin: 6px 0;
+  color: #111;
+  font-weight: 600;
+}
+
+/* Error card */
+.bookingErrorCard{
+  background: rgba(255, 77, 77, 0.12);
+  border: 1px solid rgba(255, 77, 77, 0.25);
+  color: #ffb3b3;
+  padding: 12px 14px;
+  border-radius: 14px;
+  margin-bottom: 16px;
+  font-weight: 700;
+}
+
+/* Glass form card */
+.bookingFormCard{
+  width: min(560px, 92vw);
+  margin: 0 auto;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.16);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+  padding: 18px 18px;
+}
+
+/* Inputs layout (2 columns for name/phone, email full width) */
+.bookingFormGrid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 12px;
+}
+
+.bookingInput{
+  height: 46px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.22);
+  background: rgba(255,255,255,0.95);
+  padding: 0 12px;
+  font-size: 15px;
+  outline: none;
+}
+
+.bookingInput:focus{
+  border-color: rgba(0, 212, 255, 0.55);
+  box-shadow: 0 0 0 4px rgba(0, 212, 255, 0.15);
+}
+
+.bookingInputFull{
+  grid-column: span 2;
+}
+
+/* Confirm button full width */
+.bookingBtnFull{
+  width: 100%;
+  margin-top: 12px;
+}
+
+/* Footer */
+.bookingFooter{
+  margin-top: 22px;
+  display: flex;
+  justify-content: center;
+}
+
+/* Responsive */
+@media (max-width: 600px){
+  .bookingSummaryGrid{
+    grid-template-columns: 1fr;
+  }
+  .bookingFormGrid{
+    grid-template-columns: 1fr;
+  }
+  .bookingInputFull{
+    grid-column: span 1;
+  }
+}

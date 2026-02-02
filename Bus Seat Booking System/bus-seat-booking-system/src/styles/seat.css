@@ -1,6 +1,9 @@
 .seat-selection-page {
   min-height: 100vh;
-  background: #f5f5f5;
+  background: radial-gradient(1200px 500px at 20% 10%, rgba(120,160,255,.35), transparent 60%),
+              radial-gradient(900px 500px at 80% 40%, rgba(180,120,255,.25), transparent 55%),
+              linear-gradient(180deg, #0f1226, #0b1024);
+  color: #eef2ff;
 }
 
 .seat-selection-container {
@@ -18,21 +21,16 @@
 }
 
 .back-button {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
-  background: white;
-  border: 2px solid #e0e0e0;
-  border-radius: 8px;
-  color: #666;
-  font-weight: 500;
-  transition: all 0.3s ease;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.14);
+  color: rgba(238,242,255,0.85);
+  border-radius: 999px;
+  padding: 0.75rem 1.25rem;
 }
 
 .back-button:hover {
-  border-color: #667eea;
-  color: #667eea;
+   border-color: rgba(102,126,234,0.7);
+  color: #ffffff;
   transform: translateX(-4px);
 }
 
@@ -75,11 +73,17 @@
   gap: 1.5rem;
 }
 
-.bus-info-card {
-  background: white;
-  border-radius: 12px;
-  padding: 1.5rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+.bus-info-card,
+.seat-layout-panel,
+
+.selected-seat-panel {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 16px;
+  box-shadow: 0 30px 90px rgba(0,0,0,.35);
+  color: #eef2ff;
 }
 
 .bus-info-title {
@@ -87,7 +91,7 @@
   color: #333;
   margin-bottom: 1.5rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid rgba(255,255,255,0.10);
 }
 
 .bus-details {
@@ -186,6 +190,11 @@
   font-size: 0.8rem;
   color: #666;
 }
+
+.stat-color.available { background: #27c46a; box-shadow: 0 10px 24px rgba(39,196,106,.25); }
+.stat-color.booked { background: #ff4a5a; box-shadow: 0 10px 24px rgba(255,74,90,.25); }
+.stat-color.premium { background: #2b8cff; box-shadow: 0 10px 24px rgba(43,140,255,.25); }
+
 
 /* Price Info */
 .price-info {
@@ -326,19 +335,15 @@
 }
 
 .deselect-btn {
-  flex: 1;
-  padding: 0.75rem;
-  background: white;
-  border: 2px solid #e0e0e0;
-  border-radius: 8px;
-  color: #666;
-  font-weight: 500;
-  transition: all 0.3s ease;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.14);
+  color: rgba(238,242,255,0.85);
+  border-radius: 999px;
 }
 
 .deselect-btn:hover {
-  border-color: #666;
-  color: #333;
+  border-color: rgba(255,255,255,0.25);
+  color: #fff;
 }
 
 .proceed-btn {
