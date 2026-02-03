@@ -5,8 +5,10 @@ export default function SeatLayout({ seats, select, selectedSeat }) {
   // Handle undefined or null seats
   if (!seats || !Array.isArray(seats)) {
     return (
+      <div className="seatGridWrap">
       <div className="seat-grid" style={{ textAlign: 'center', padding: '20px' }}>
         <p>No seats available or loading...</p>
+      </div>
       </div>
     );
   }
@@ -14,8 +16,10 @@ export default function SeatLayout({ seats, select, selectedSeat }) {
   // Handle empty seats array
   if (seats.length === 0) {
     return (
+      <div className="seatGridWrap">
       <div className="seat-grid" style={{ textAlign: 'center', padding: '20px' }}>
         <p>No seats found for this bus.</p>
+      </div>
       </div>
     );
   }
@@ -46,5 +50,5 @@ export default function SeatLayout({ seats, select, selectedSeat }) {
     return out;
   };
 
-  return <div className="seat-grid seat-grid--2x2">{renderSeats2x2()}</div>;
+  return <div className="seat-grid">{renderSeats2x2()}</div>;
 }

@@ -60,7 +60,7 @@ const Home = () => {
   return (
     <div className="page">
       <div className="container">
-        <h1 className="page-title floating-title">
+        <h1 className="page-title ">
           <span className="bus-icon">🚌</span>
           <span className="title-text"> Bus Seat Booking System</span>
         </h1>
@@ -74,6 +74,7 @@ const Home = () => {
                 Refresh
               </button>
             </div>
+
           ) : (
             routes.map((route) => (
               <div key={route.id} className="route-card">
@@ -99,7 +100,12 @@ const Home = () => {
             ))
           )}
         </div>
+        <div className="busFooter">
+        <button className="btn-ghost" onClick={() => navigate("/login")} type="button">
+          Back to Login
+        </button>
       </div>
+    </div>
     </div>
   );
 };

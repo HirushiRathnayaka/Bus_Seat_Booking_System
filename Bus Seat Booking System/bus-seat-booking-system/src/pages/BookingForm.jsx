@@ -36,8 +36,8 @@ export default function BookingForm() {
 
       console.log("bookingData =>", bookingData);
 
-      const res = await createBooking(bookingData);
-      nav("/ticket", { state: { ticket: res.data } });
+      const ticket = await createBooking(bookingData);
+      nav("/ticket", { state: { ticket } });
 
     } catch (err) {
       console.error("Booking error:", err);

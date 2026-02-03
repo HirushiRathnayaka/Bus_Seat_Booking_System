@@ -16,6 +16,7 @@ import BookingSuccess from './pages/BookingSuccess';
 import AdminDashboard from './pages/AdminDashboard';
 import AddAdmin from './pages/AddAdmin';
 import AdminLogin from "./pages/auth/AdminLogin";
+import TicketPage from "./pages/TicketPage";
 
 
 
@@ -92,6 +93,8 @@ function App() {
             <Route path="*" element={<Navigate to="/admin/dashboard"/>} />
 
             <Route path="*" element={<Navigate to="/home" />} />
+
+            <Route path="/ticket" element={<TicketPage />} />
           </Routes>
         </div>
       </Router>

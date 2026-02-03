@@ -48,7 +48,12 @@ public class BookingService {
         }
 
         // generate ticket number
-        booking.setTicketNo("TKT-" + java.util.UUID.randomUUID());
+        String ticketNo ="TKT-" + java.util.UUID.randomUUID()
+                .toString()
+                .substring(0, 8)
+                .toUpperCase();
+
+        booking.setTicketNo(ticketNo);
 
         return bookingRepository.save(booking);
     }

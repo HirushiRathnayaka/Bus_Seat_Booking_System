@@ -1,8 +1,20 @@
 /* ===== Bus Selection Page (matches SeatSelection / Home) ===== */
 
 .busPage{
-  max-width: 1100px;
-  margin: 0 auto;
+  min-height: 100vh;
+
+  background-image:
+    linear-gradient(
+      rgba(30, 30, 60, 0.78),
+      rgba(30, 30, 60, 0.88)
+    ),
+    url("../assets/wall.jpg"); 
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  padding: 40px 20px;
 }
 
 /* Header */

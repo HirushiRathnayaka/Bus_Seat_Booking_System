@@ -438,3 +438,25 @@
     flex-direction: column;
   }
 }
+
+.seat-grid{
+  display: grid;
+  /* seat, seat, aisle, seat, seat */
+  grid-template-columns: 60px 60px 50px 60px 60px;
+  gap: 25px 80px;        /* row gap, column gap */
+  justify-content: center;
+  width: fit-content;
+  max-width: 100%;
+  padding: 10px 8px;
+}
+
+.seatLayoutWrap{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.aisle{
+  width: 60px;
+  height: 1px;
+}
