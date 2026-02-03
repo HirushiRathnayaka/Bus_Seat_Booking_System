@@ -5,10 +5,10 @@ const API_URL = "http://localhost:8083/api/bookings";
 export const createBooking = async (data) => {
   try {
     const res = await axios.post(API_URL, data);
-    return res.data;
+    return res.data; // backend response
   } catch (error) {
     console.error("Error creating booking:", error);
-    throw error;
+    throw error; // frontend catch
   }
 };
 

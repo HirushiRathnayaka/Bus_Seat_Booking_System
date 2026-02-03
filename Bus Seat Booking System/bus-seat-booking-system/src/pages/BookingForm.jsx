@@ -34,12 +34,15 @@ export default function BookingForm() {
         user: user?.id ? { id: user.id } : null
       };
 
+      console.log("bookingData =>", bookingData);
+
       const res = await createBooking(bookingData);
       nav("/ticket", { state: { ticket: res.data } });
 
     } catch (err) {
       console.error("Booking error:", err);
       setError(
+        err.response?.data?.error ||
         err.response?.data?.message || 
         "Booking failed. Please try again."
       );
