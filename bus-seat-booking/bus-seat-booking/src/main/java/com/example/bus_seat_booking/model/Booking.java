@@ -14,6 +14,10 @@ public class Booking {
     private String phoneNumber;
     private String email;
     private LocalDateTime bookingDate = LocalDateTime.now();
+    public enum BookingStatus {
+        CONFIRMED,
+        CANCELLED
+    }
 
     @Column(name = "ticket_no", unique = true)
     private String ticketNo;
@@ -29,6 +33,11 @@ public class Booking {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @Enumerated(EnumType.STRING)
+    private BookingStatus status = BookingStatus.CONFIRMED;
+
+    private LocalDateTime cancelledAt;
 
     // Default constructor
     public Booking() {}
@@ -113,4 +122,19 @@ public class Booking {
 
     public void setTicketNo(String ticketNo) {this.ticketNo = ticketNo;}
 
+    public BookingStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(BookingStatus status) {
+        this.status = status;
+    }
+
+    public LocalDateTime getCancelledAt() {
+        return cancelledAt;
+    }
+
+    public void setCancelledAt(LocalDateTime cancelledAt) {
+        this.cancelledAt = cancelledAt;
+    }
 }

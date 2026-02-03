@@ -7,6 +7,8 @@ import com.example.bus_seat_booking.model.User;
 import com.example.bus_seat_booking.repository.BookingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -70,4 +72,27 @@ public class BookingService {
         return bookingRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Booking not found with id: " + id));
     }
+
+    public List<Booking> getBookingsByBus(Long busId) {
+        return bookingRepository.findByBusId(busId);
+    }
+
+    public Booking cancelBooking(Long bookingId) {
+        Booking booking = bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new RuntimeException("Booking not found"));
+
+        if (booking.getStatus() == Booking.BookingStatus.CANCELLED) {
+            return booking; // already cancelled
+        }
+        booking.setStatus(Booking.BookingStatus.CANCELLED);
+        booking.setCancelledAt(LocalDateTime.now());
+
+        if (booking.getSeat() != null && booking.getSeat().getId() != null) {
+            seatService.unbookSeat(booking.getSeat().getId());
+        }
+
+        return bookingRepository.save(booking);
+    }
+
+
 }

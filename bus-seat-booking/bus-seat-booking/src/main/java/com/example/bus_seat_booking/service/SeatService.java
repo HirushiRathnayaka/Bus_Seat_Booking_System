@@ -4,6 +4,7 @@ import com.example.bus_seat_booking.model.Seat;
 import com.example.bus_seat_booking.repository.SeatRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
@@ -25,6 +26,7 @@ public class SeatService {
                 .orElseThrow(() -> new RuntimeException("Seat not found with id: " + id));
     }
 
+    // Book seat
     public Seat bookSeat(Long seatId) {
         Seat seat = getSeatById(seatId);
 
@@ -34,6 +36,13 @@ public class SeatService {
 
         seat.setBooked(true);
         return seatRepository.save(seat);
+    }
+
+    // Unbook seat (used when ticket is cancelled)
+    public void unbookSeat(Long seatId) {
+        Seat seat = getSeatById(seatId);
+        seat.setBooked(false);
+        seatRepository.save(seat);
     }
 
     public Seat createSeat(Seat seat) {

@@ -1,0 +1,82 @@
+.adminSearchWrap{
+  padding: 10px 16px;
+}
+
+.adminSearch{
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.10);
+  color: #fff;
+  outline: none;
+}
+.adminSearch::placeholder{
+  color: rgba(255,255,255,0.65);
+}
+
+/* modal size */
+.modal-lg{
+  width: min(1100px, 92vw);
+  max-height: 86vh;
+  overflow: hidden;
+}
+.modal-body{
+  padding: 10px 16px 16px;
+  overflow: auto;
+  max-height: 62vh;
+}
+
+/* ---- TABLE FIX ---- */
+.adminTableWrap{
+  width: 100%;
+  overflow-x: auto;          /* small screens -> horizontal scroll */
+  padding-bottom: 6px;
+}
+
+.adminTable{
+  width: 100%;
+  min-width: 900px;          /* table එකට space දෙන්න */
+  border-collapse: collapse;
+  table-layout: fixed;       /* columns stable */
+}
+
+.adminTable th,
+.adminTable td{
+  padding: 12px 14px;
+  text-align: left;
+  vertical-align: middle;
+  white-space: nowrap;       /* default nowrap (except ticket) */
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+
+/* Ticket column long -> wrap nicely */
+.adminTable th:nth-child(1),
+.adminTable td:nth-child(1){
+  width: 240px;              /* ticket column width */
+  white-space: normal;       /* allow wrap */
+  word-break: break-word;
+}
+
+/* Passenger column */
+.adminTable th:nth-child(5),
+.adminTable td:nth-child(5){
+  width: 180px;
+  white-space: normal;
+  word-break: break-word;
+}
+
+/* Make header sticky (optional nice) */
+.adminTable thead th{
+  position: sticky;
+  top: 0;
+  background: rgba(255,255,255,0.95);
+  z-index: 1;
+}
+
+/* Keep modal body scrolling clean */
+.modal-body{
+  overflow: auto;
+  max-height: 62vh;
+}
+

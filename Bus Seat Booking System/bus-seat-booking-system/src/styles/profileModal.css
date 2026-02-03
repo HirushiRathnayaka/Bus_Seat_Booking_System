@@ -1,0 +1,27 @@
+.topRightProfile{
+  position: absolute;
+  top: 18px;
+  right: 22px;
+  z-index: 2;
+}
+
+.profileInfo{
+  margin: 10px 0 18px;
+  display: grid;
+  gap: 6px;
+  color: #0b1b2b;
+}
+
+.sectionTitle{
+  margin: 10px 0;
+  color: #0b1b2b;
+}
+
+.pillConfirmed{
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 12px;
+  background: #1db954;
+  color: #fff;
+}

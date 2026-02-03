@@ -31,3 +31,13 @@ export const getUserBookings = async (userId) => {
     return [];
   }
 };
+
+export const getBookingsByBus = async (busId) => {
+  const res = await axios.get(`${API_URL}/bus/${busId}`);
+  return res.data;
+};
+
+export const cancelBooking = async (bookingId) => {
+  const res = await axios.put(`${API_URL}/${bookingId}/cancel`);
+  return res.data;
+};

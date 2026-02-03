@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getAllRoutes } from "../api/routeApi";
+import MyProfileModal from "../components/MyProfileModal";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 import "../styles/main.css";
 
 const Home = () => {
@@ -8,6 +11,8 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { user } = useContext(AuthContext);
+  const [showProfile, setShowProfile] = useState(false);
 
   useEffect(() => {
     loadRoutes();
@@ -65,6 +70,16 @@ const Home = () => {
           <span className="title-text"> Bus Seat Booking System</span>
         </h1>
         <p className="page-subtitle">Select your route to continue</p>
+
+        <div className="topRightProfile">
+          <button className="btn-ghost"onClick={() => (user ? setShowProfile(true) : navigate("/login"))}
+          type="button">
+           My Profile
+          </button> 
+        </div>
+
+         {showProfile && <MyProfileModal onClose={() => setShowProfile(false)} />}
+
 
         <div className="route-list">
           {routes.length === 0 ? (

@@ -9,6 +9,7 @@ export default function BookingForm() {
   const { state } = useLocation();
   const nav = useNavigate();
   const { user } = useContext(AuthContext);
+  
   const [name, setName] = useState(user?.firstName ? `${user.firstName} ${user.lastName}` : "");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState(user?.email || "");
