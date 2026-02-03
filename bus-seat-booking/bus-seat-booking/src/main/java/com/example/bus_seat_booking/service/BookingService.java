@@ -33,7 +33,7 @@ public class BookingService {
         Seat seat = seatService.bookSeat(booking.getSeat().getId());
         booking.setSeat(seat);
 
-        // Get bus details
+        // validate bus
         if (booking.getBus() == null || booking.getBus().getId() == null) {
             throw new RuntimeException("Bus ID is required");
         }
@@ -46,6 +46,9 @@ public class BookingService {
             User user = authService.getUserById(booking.getUser().getId());
             booking.setUser(user);
         }
+
+        // generate ticket number
+        booking.setTicketNo("TKT-" + java.util.UUID.randomUUID());
 
         return bookingRepository.save(booking);
     }

@@ -29,13 +29,14 @@ export default function BookingForm() {
         passengerName: name,
         phoneNumber: phone,
         email: email,
-        seatId: state.seat.id,
-        busId: state.busId,
-        userId: user?.id
+        seat:{ id: state.seat.id },
+        bus:  { id: state.busId },
+        user: user?.id ? { id: user.id } : null
       };
 
-      await createBooking(bookingData);
-      nav("/success");
+      const res = await createBooking(bookingData);
+      nav("/ticket", { state: { ticket: res.data } });
+
     } catch (err) {
       console.error("Booking error:", err);
       setError(

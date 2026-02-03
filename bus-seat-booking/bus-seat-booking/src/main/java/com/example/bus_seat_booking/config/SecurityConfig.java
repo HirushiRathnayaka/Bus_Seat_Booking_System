@@ -33,7 +33,10 @@ public class SecurityConfig {
                                 "/api/routes/**",
                                 "/api/buses/**",
                                 "/api/seats/**",
-                                "/api/bookings/**"
+                                "/api/bookings/**",
+                                "/api/adminAuth/**",
+                                "/api/adminApi/**"
+
                         ).permitAll()
 
                         // Admin only endpoints

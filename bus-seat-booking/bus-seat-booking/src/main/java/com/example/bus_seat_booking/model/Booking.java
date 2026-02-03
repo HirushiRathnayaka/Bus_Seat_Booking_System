@@ -15,6 +15,9 @@ public class Booking {
     private String email;
     private LocalDateTime bookingDate = LocalDateTime.now();
 
+    @Column(name = "ticket_no", unique = true)
+    private String ticketNo;
+
     @ManyToOne
     @JoinColumn(name = "seat_id")
     private Seat seat;
@@ -105,4 +108,9 @@ public class Booking {
     public void setUser(User user) {
         this.user = user;
     }
+
+    public String getTicketNo() {return ticketNo;}
+
+    public void setTicketNo(String ticketNo) {this.ticketNo = ticketNo;}
+
 }

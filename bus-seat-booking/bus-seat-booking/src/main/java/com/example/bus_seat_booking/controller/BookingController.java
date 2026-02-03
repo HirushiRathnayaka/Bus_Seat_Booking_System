@@ -31,9 +31,17 @@ public class BookingController {
     public ResponseEntity<?> createBooking(@RequestBody Booking booking) {
         try {
             Booking createdBooking = bookingService.createBooking(booking);
-            return ResponseEntity.ok(createdBooking);
+            return ResponseEntity.ok(java.util.Map.of(
+                    "id", createdBooking.getId(),
+                    "ticketNo", createdBooking.getTicketNo(),
+                    "seatNumber", createdBooking.getSeat().getSeatNumber(),
+                    "busNumber", createdBooking.getBus().getBusNumber()
+            ));
         } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body(java.util.Map.of(
+                    "error", e.getMessage()
+
+            ));
         }
     }
 
