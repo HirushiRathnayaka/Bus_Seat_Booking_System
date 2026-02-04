@@ -15,16 +15,6 @@ public class Route {
     @Column(name = "to_city")
     private String toCity;
 
-    // Default constructor
-    public Route() {}
-
-    // Constructor with parameters
-    public Route(String fromCity, String toCity) {
-        this.fromCity = fromCity;
-        this.toCity = toCity;
-    }
-
-    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -48,4 +38,15 @@ public class Route {
     public void setToCity(String toCity) {
         this.toCity = toCity;
     }
+
+    // Default constructor
+    public Route() {}
+
+    // Constructor with parameters
+    public Route(String fromCity, String toCity) {
+        this.fromCity = fromCity;
+        this.toCity = toCity;
+    }
+
+
 }

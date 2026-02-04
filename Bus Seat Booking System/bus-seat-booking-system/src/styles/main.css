@@ -366,7 +366,8 @@ button:disabled {
   grid-template-columns: repeat(3, minmax(220px, 1fr));
   gap: 18px;
   margin: 18px 0 26px;
-  text-align: center;    
+  text-align: center;
+ 
 }
 
 .stat-card {
@@ -381,18 +382,19 @@ button:disabled {
   transform: translateY(-3px);
 }
 
-.stat-label {
-  font-size: clamp(32px, 4vw, 46px);
-  font-weight: 900;
+.admin-stats .stat-label{
+  font-size: 2rem;      
+  font-weight: 700;
   opacity: 0.92;
   color: #fff;
 }
 
-.stat-value {
-  margin-top: 12px;
-  font-size: 44px;
+.admin-stats .stat-value{
+  margin-top: 10px;
+  font-size: 3rem;     
   font-weight: 900;
   letter-spacing: -1px;
+  color: #fff;
 }
 
 .stat-purple { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }

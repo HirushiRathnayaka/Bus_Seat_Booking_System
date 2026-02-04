@@ -1,109 +1,171 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
-import "../styles/main.css"; // ✅ correct path inside src
+import { useEffect, useMemo, useState } from "react";
+import { deleteBus, getBusesByRoute, getRoutes } from "../api/adminApi";
+import "../styles/main.css";
 
-export default function DeleteScheduleModal({ isOpen, onClose, onDeleted}) {
-  const [schedules, setSchedules] = useState([]);
-  const [selectedId, setSelectedId] = useState("");
+export default function DeleteScheduleModal({ onClose }) {
+  const [routes, setRoutes] = useState([]);
+  const [buses, setBuses] = useState([]);
+  
+
+  const [routeId, setRouteId] = useState("");
+  const [busId, setBusId] = useState("");
+  
+
+  const [loadingRoutes, setLoadingRoutes] = useState(false);
+  const [loadingBuses, setLoadingBuses] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  //const [deleting, setDeleting] = useState(false);
-  const [msg, setMsg] = useState("");
+  const [ok, setOk] = useState("");
 
+  //  load routes when modal opens
   useEffect(() => {
-    if (!isOpen) return;
+    const loadRoutes = async () => {
+      setError("");
+      setOk("");
+      setLoadingRoutes(true);
+      try {
+        const list = await getRoutes();
+        setRoutes(Array.isArray(list) ? list : []);
+      } catch (e) {
+        setError(e.message || "Failed to load routes");
+      } finally {
+        setLoadingRoutes(false);
+      }
+    };
+    loadRoutes();
+  }, []);
 
+  //  when route selected -> load buses
+  useEffect(() => {
+    const loadBuses = async () => {
+      setError("");
+      setOk("");
+
+      setBuses([]);
+      setBusId("");
+    
+
+      if (!routeId) return;
+
+      setLoadingBuses(true);
+      try {
+        const list = await getBusesByRoute(Number(routeId));
+        setBuses(Array.isArray(list) ? list : []);
+      } catch (e) {
+        setError(e.message || "Failed to load buses");
+      } finally {
+        setLoadingBuses(false);
+      }
+    };
+    loadBuses();
+  }, [routeId]);
+
+  const selectedRoute = useMemo(
+    () => routes.find((r) => String(r.id) === String(routeId)),
+    [routes, routeId]
+  );
+
+  const selectedBus = useMemo(
+    () => buses.find((b) => String(b.id) === String(busId)),
+    [buses, busId]
+  );
+
+  const doDelete = async () => {
     setError("");
-    setMsg("");
-    setSelectedId("");
-    setLoading(true);
+    setOk("");
 
-    axios
-      .get("http://localhost:8083/api/schedules")
-      .then((res) => {
-        setSchedules(res.data || []);
-      })
-      .catch((e) => {
-        setError("Schedules load වෙන්න බැරි වුණා. API / CORS check කරන්න.");
-        setSchedules([]);
-      })
-      .finally(() => setLoading(false));
-  }, [isOpen]);
-
-  const handleDelete = async () => {
-    if (!selectedId) {
-      setMsg("Please select a schedule.");
-      return;
-    }
-
-    setLoading(true);
-    setMsg("");
-    setError("");
+    if (!routeId) return setError("Please select a Route");
+    if (!busId) return setError("Please select a Bus");
 
     try {
-      // real backend delete
-      await axios.delete(`http://localhost:8083/api/schedules/${selectedId}`);
+      setDeleting(true);
+      await deleteBus(Number(routeId), Number(busId));
+      setOk("Bus deleted!");
+      setBuses((prev) => prev.filter((b) => String(b.id) !== String(busId)));
+      setBusId("");
 
-      setSchedules((prev) => prev.filter((s) => String(s.id) !== String(selectedId)));
-      setSelectedId("");
-
-      setMsg("✅ Schedule deleted successfully!");
-      
-      if (onDeleted) onDeleted(selectedId);
-      onClose();
+      setTimeout(() => onClose(), 900);
 
     } catch (e) {
-      setMsg("❌ Failed to delete schedule. Try again.");
+      setError(e.message || "Failed to delete bus");
     } finally {
-      setLoading(false);
+      setDeleting(false);
     }
   };
-  
+
   return (
-    <div className="modal-overlay" onMouseDown={onClose}>
+    <div className="modal-backdrop" onMouseDown={onClose}>
       <div className="modal-card" onMouseDown={(e) => e.stopPropagation()}>
         <div className="modal-head">
-          <h3>🗑️ Delete Bus Schedule</h3>
-          <button className="btn-close" onClick={onClose} type="button">✕</button>
+          <h3>Delete Bus Schedule</h3>
+          <button className="modal-x" onClick={onClose}>×</button>
         </div>
 
-        <div className="modal-body">
-          <label style={{ display: "block", marginBottom: 8, fontWeight: 700 }}>
-            Select Schedule
-          </label>
+        {error && <div className="msg error">{error}</div>}
+        {ok && <div className="msg ok">{ok}</div>}
 
-          {loading ? (
-            <p>Loading schedules...</p>
-          ) : (
+        <div className="modal-form">
+          <label>Route</label>
           <select
-            value={selectedId}
-            onChange={(e) => setSelectedId(e.target.value)}
-            style={{ width: "100%", padding: 10, borderRadius: 10 }}
+            className="modal-select"
+            value={routeId}
+            onChange={(e) => setRouteId(e.target.value)}
+            disabled={loadingRoutes}
           >
-            <option value="">-- Select --</option>
-            {schedules.map((s) => (
-              <option key={s.id} value={s.id}>
-                 #{s.id} • {s.fromCity ?? "-"} → {s.toCity ?? "-"}
-                  {s.date ? ` • ${s.date}` : ""}{s.time ? ` ${s.time}` : ""}
+            <option value="">
+              {loadingRoutes ? "Loading routes..." : "-- Select Route --"}
+            </option>
+
+            {routes.map((r) => (
+              <option key={r.id} value={r.id}>
+                {r.fromCity} → {r.toCity} (Route #{r.id})
               </option>
             ))}
           </select>
+
+          {selectedRoute && (
+            <div className="msg ok" style={{ marginTop: 6 }}>
+              Selected: <b>{selectedRoute.fromCity}</b> → <b>{selectedRoute.toCity}</b>
+            </div>
           )}
 
-          {(msg || error) && (
-            <p style={{ marginTop: 12, color: msg.includes("✅") ? "green" : "red" }}>
-              {msg}
-            </p>
-          )}
-        </div>
+          <label>Bus</label>
+          <select
+            className="modal-select"
+            value={busId}
+            onChange={(e) => setBusId(e.target.value)}
+            disabled={!routeId || loadingBuses}
+          >
+            <option value="">
+              {!routeId
+                ? "Select route first"
+                : loadingBuses
+                ? "Loading buses..."
+                : "-- Select Bus --"}
+            </option>
 
-        <div className="modal-foot">
-          <button className="btn-ghost" onClick={onClose} type="button" disabled={loading}>
-            Cancel
-          </button>
-          <button className="btn-danger" onClick={handleDelete} type="button" disabled={loading}>
-            {loading ? "Deleting..." : "Delete"}
-          </button>
+            {buses.map((b) => (
+              <option key={b.id} value={b.id}>
+                {b.busNumber} | {b.travelDate} | {b.departureTime} (ID: {b.id})
+              </option>
+            ))}
+          </select>
+
+          {selectedBus && (
+            <div className="msg ok" style={{ marginTop: 6 }}>
+               Selected Bus: <b>{selectedBus.busNumber}</b> | {selectedBus.travelDate} | {selectedBus.departureTime}
+            </div>
+          )}
+
+          <div className="modal-actions">
+            <button type="button" className="btn-secondary" onClick={onClose}>
+              Cancel
+            </button>
+            <button type="button" className="btn-danger" onClick={doDelete} disabled={deleting}>
+              {deleting ? "Deleting..." : "Delete"}
+            </button>
+          </div>
         </div>
       </div>
     </div>

@@ -192,7 +192,7 @@ export default function AdminDashboard() {
       )}
 
        {/* Stats section */}
-      <div className="admin-stats">
+      <div className="admin-stats ">
         <div className="stat-card stat-purple">
           <div className="stat-label">Total Bookings</div>
           <div className="stat-value">{bookings.length}</div>

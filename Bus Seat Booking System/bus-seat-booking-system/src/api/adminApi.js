@@ -2,6 +2,7 @@ import axios from "axios";
 import { getAdminCreds } from "./adminAuth";
 
 const API_URL = "http://localhost:8083/api/admin";
+const PUBLIC_API_URL = "http://localhost:8083/api";
 
 const api = axios.create({
   baseURL: API_URL,
@@ -9,6 +10,23 @@ const api = axios.create({
     "Content-Type": "application/json",
   },
 });
+
+const publicApi = axios.create({
+  baseURL: PUBLIC_API_URL,
+  headers: { "Content-Type": "application/json" },
+});
+
+// helpers
+const toError = (error, fallbackMsg) => {
+  const msg =
+    error?.response?.data?.message ||
+    error?.response?.data?.error ||
+    (typeof error?.response?.data === "string" ? error.response.data : null) ||
+    error?.message ||
+    fallbackMsg;
+
+  return new Error(msg);
+};
 
 // auth interceptor
 api.interceptors.request.use(
@@ -25,10 +43,15 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
+
 // Test / dashboard
 export const adminHello = async () => {
-  const response = await api.get("/hello");
-  return response.data;
+  try {
+    const res = await api.get("/hello");
+    return res.data;
+  } catch (error) {
+    throw toError(error, "Failed to call admin hello");
+  }
 };
 
 export const getDashboardStats = async () => {
@@ -36,13 +59,12 @@ export const getDashboardStats = async () => {
     const response = await api.get("/dashboard");
     return response.data;
   } catch (error) {
-    throw error.response?.data || { message: "Failed to fetch dashboard stats" };
+    throw toError(error, "Failed to fetch dashboard stats");
   }
 };
 
 
 // Routes
-
 export const getRoutes = async () => {
   try {
     const response = await axios.get("http://localhost:8083/api/routes");
@@ -52,12 +74,21 @@ export const getRoutes = async () => {
   }
 };
 
+export const getRouteById = async (routeId) => {
+  try {
+    const res = await publicApi.get(`/routes/${routeId}`); // GET /api/admin/routes/{id}
+    return res.data;
+  } catch (error) {
+    throw toError(error, "Failed to fetch route");
+  }
+};
+
 export const createRoute = async (payload) => {
   try {
     const response = await api.post("/routes", payload); // POST /api/admin/routes
     return response.data;
   } catch (error) {
-    throw error.response?.data || { message: "Failed to create route" };
+    throw toError(error, "Failed to create route");
   }
 };
 
@@ -68,7 +99,7 @@ export const getBusesByRoute = async (routeId) => {
     const response = await api.get(`/buses/route/${routeId}`);
     return response.data;
   } catch (error) {
-    throw error.response?.data || { message: "Failed to fetch buses by route" };
+    throw toError(error, "Failed to fetch buses by route");
   }
 };
 
@@ -79,16 +110,26 @@ export const createSchedule = async (payload) => {
     const response = await api.post("/schedules", payload);
     return response.data;
   } catch (error) {
-    throw error.response?.data || { message: "Failed to create bus schedule" };
+    throw toError(error, "Failed to fetch schedules");
   }
 };
 
-export const deleteSchedule = async (scheduleId) => {
+export const getSchedules = async () => {
   try {
-    const response = await api.delete(`/schedules/${scheduleId}`);
-    return response.data;
+    const res = await api.get("/schedules"); // GET /api/admin/schedules
+    return res.data;
   } catch (error) {
-    throw error.response?.data || { message: "Failed to delete bus schedule" };
+    throw toError(error, "Failed to fetch schedules");
+  }
+};
+
+
+export const deleteBus = async (busId) => {
+  try {
+    const res = await api.delete(`/buses/${busId}`);
+    return res.data;
+  } catch (error) {
+    throw toError(error, "Failed to delete bus");
   }
 };
 
@@ -99,7 +140,7 @@ export const reserveSeat = async (payload) => {
     const response = await api.post("/seats/reserve", payload);
     return response.data;
   } catch (error) {
-    throw error.response?.data || { message: "Failed to reserve seat" };
+    throw toError(error, "Failed to reserve seat");
   }
 };
 
@@ -108,7 +149,7 @@ export const cancelReservation = async (bookingId) => {
     const response = await api.delete(`/bookings/${bookingId}`);
     return response.data;
   } catch (error) {
-    throw error.response?.data || { message: "Failed to cancel reservation" };
+    throw toError(error, "Failed to cancel reservation");
   }
 };
 
@@ -119,7 +160,7 @@ export const getAllUsers = async () => {
     const response = await api.get("/users");
     return response.data;
   } catch (error) {
-    throw error.response?.data || { message: "Failed to fetch users" };
+    throw toError(error, "Failed to fetch users");
   }
 };
 
