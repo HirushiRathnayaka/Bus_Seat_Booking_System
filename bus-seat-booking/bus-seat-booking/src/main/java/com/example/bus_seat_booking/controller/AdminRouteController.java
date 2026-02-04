@@ -1,7 +1,7 @@
 package com.example.bus_seat_booking.controller;
 
 import com.example.bus_seat_booking.model.Route;
-import com.example.bus_seat_booking.service.RouteService;
+import com.example.bus_seat_booking.repository.RouteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,38 +9,33 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/routes")
+@RequestMapping("/api/admin/routes")
 @CrossOrigin(origins = "http://localhost:3000")
-public class RouteController {
+public class AdminRouteController {
 
     @Autowired
-    private RouteService routeService;
+    private RouteRepository routeRepository;
 
+    // GET /api/admin/routes  (for dropdown)
     @GetMapping
     public ResponseEntity<List<Route>> getAllRoutes() {
-        List<Route> routes = routeService.getAllRoutes();
-        return ResponseEntity.ok(routes);
+        return ResponseEntity.ok(routeRepository.findAll());
     }
 
+    // GET /api/admin/routes/{id} (optional)
     @GetMapping("/{id}")
     public ResponseEntity<Route> getRouteById(@PathVariable Long id) {
-        Route route = routeService.getRouteById(id);
+        Route route = routeRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Route not found"));
         return ResponseEntity.ok(route);
     }
 
+    // POST /api/admin/routes (add route from admin)
     @PostMapping
     public ResponseEntity<Route> createRoute(@RequestBody Route route) {
-        // basic validation
         if (route.getFromCity() == null || route.getToCity() == null) {
             throw new RuntimeException("fromCity and toCity are required");
         }
-
-        Route createdRoute = routeService.createRoute(route);
-        return ResponseEntity.ok(createdRoute);
-    }
-
-    @GetMapping("/test")
-    public ResponseEntity<String> test() {
-        return ResponseEntity.ok("Routes API is working!");
+        return ResponseEntity.ok(routeRepository.save(route));
     }
 }

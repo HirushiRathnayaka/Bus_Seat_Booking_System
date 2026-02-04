@@ -4,6 +4,7 @@ import { AuthContext } from "../context/AuthContext";
 import AddScheduleModal from "./AddScheduleModal";
 import MarkSeatsModal from "./MarkSeatsModal";
 import DeleteScheduleModal from "./DeleteScheduleModal";
+import AddRouteModal from "./AddRouteModal";
 import { Link } from "react-router-dom";
 import "../styles/main.css";
 
@@ -22,6 +23,8 @@ export default function AdminDashboard() {
   const [showSchedule, setShowSchedule] = useState(false);
   const [showMarkSeats, setShowMarkSeats] = useState(false);
   const [showDeleteSchedule, setShowDeleteSchedule] = useState(false);
+  const [showAddRoute, setShowAddRoute] = useState(false);
+
 
   useEffect(() => {
     const fetchBookings = async () => {
@@ -136,6 +139,18 @@ export default function AdminDashboard() {
               <button
                 className="dropdown-item"
                 onClick={() => {
+                setOpenMenu(false);
+                setShowAddRoute(true);
+                }}
+                type="button"
+              >
+              ➕ Add Route
+              </button>
+
+
+              <button
+                className="dropdown-item"
+                onClick={() => {
                   setOpenMenu(false);
                   setShowMarkSeats(true);
                 }}
@@ -172,7 +187,10 @@ export default function AdminDashboard() {
           <DeleteScheduleModal onClose={() => setShowDeleteSchedule(false)} />
       )}
 
-       
+      {showAddRoute && (
+          <AddRouteModal onClose={() => setShowAddRoute(false)} />
+      )}
+
        {/* Stats section */}
       <div className="admin-stats">
         <div className="stat-card stat-purple">

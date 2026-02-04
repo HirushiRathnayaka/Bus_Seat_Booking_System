@@ -10,7 +10,7 @@ const api = axios.create({
   },
 });
 
-//auth interceptor
+// auth interceptor
 api.interceptors.request.use(
   (config) => {
     const { username, password } = getAdminCreds();
@@ -40,16 +40,46 @@ export const getDashboardStats = async () => {
   }
 };
 
-// bus schedule
 
+// Routes
+
+export const getRoutes = async () => {
+  try {
+    const response = await axios.get("http://localhost:8083/api/routes");
+    return response.data;
+  } catch (error) {
+    throw new Error ( "Failed to load routes" );
+  }
+};
+
+export const createRoute = async (payload) => {
+  try {
+    const response = await api.post("/routes", payload); // POST /api/admin/routes
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || { message: "Failed to create route" };
+  }
+};
+
+
+// Buses
+export const getBusesByRoute = async (routeId) => {
+  try {
+    const response = await api.get(`/buses/route/${routeId}`);
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || { message: "Failed to fetch buses by route" };
+  }
+};
+
+
+// Bus schedule
 export const createSchedule = async (payload) => {
   try {
     const response = await api.post("/schedules", payload);
     return response.data;
   } catch (error) {
-    throw (
-      error.response?.data || { message: "Failed to create bus schedule" }
-    );
+    throw error.response?.data || { message: "Failed to create bus schedule" };
   }
 };
 
@@ -58,22 +88,18 @@ export const deleteSchedule = async (scheduleId) => {
     const response = await api.delete(`/schedules/${scheduleId}`);
     return response.data;
   } catch (error) {
-    throw (
-      error.response?.data || { message: "Failed to delete bus schedule" }
-    );
+    throw error.response?.data || { message: "Failed to delete bus schedule" };
   }
 };
 
-//seat management
 
+// Seat management
 export const reserveSeat = async (payload) => {
   try {
     const response = await api.post("/seats/reserve", payload);
     return response.data;
   } catch (error) {
-    throw (
-      error.response?.data || { message: "Failed to reserve seat" }
-    );
+    throw error.response?.data || { message: "Failed to reserve seat" };
   }
 };
 
@@ -82,14 +108,12 @@ export const cancelReservation = async (bookingId) => {
     const response = await api.delete(`/bookings/${bookingId}`);
     return response.data;
   } catch (error) {
-    throw (
-      error.response?.data || { message: "Failed to cancel reservation" }
-    );
+    throw error.response?.data || { message: "Failed to cancel reservation" };
   }
 };
 
-//user management
 
+// User management
 export const getAllUsers = async () => {
   try {
     const response = await api.get("/users");
@@ -117,12 +141,13 @@ export const deleteUser = async (userId) => {
   }
 };
 
-// reports
+
+// Reports
 
 export const getRevenueReport = async (startDate, endDate) => {
   try {
     const response = await api.get("/revenue", {
-      params: { startDate, endDate }
+      params: { startDate, endDate },
     });
     return response.data;
   } catch (error) {
@@ -147,4 +172,3 @@ export const getCancelledSeats = async () => {
     throw error.response?.data || { message: "Failed to fetch cancelled seats" };
   }
 };
-
