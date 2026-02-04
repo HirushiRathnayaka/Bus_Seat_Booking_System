@@ -1,5 +1,7 @@
 package com.example.bus_seat_booking.service;
 
+import com.example.bus_seat_booking.model.Ticket;
+import com.example.bus_seat_booking.repository.TicketRepository;
 import com.example.bus_seat_booking.model.Booking;
 import com.example.bus_seat_booking.model.Seat;
 import com.example.bus_seat_booking.model.Bus;
@@ -10,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
+
 
 @Service
 public class BookingService {
@@ -25,6 +29,10 @@ public class BookingService {
 
     @Autowired
     private AuthService authService;
+
+    @Autowired
+    private TicketRepository ticketRepository;
+
 
     public Booking createBooking(Booking booking) {
         // Validate and book the seat
@@ -57,7 +65,20 @@ public class BookingService {
 
         booking.setTicketNo(ticketNo);
 
-        return bookingRepository.save(booking);
+        // save booking
+        Booking saved = bookingRepository.save(booking);
+
+        // create and save booking
+        Ticket t = new Ticket();
+        t.setTicketNo(saved.getTicketNo());
+        t.setSeatNumber(saved.getSeat() != null ? saved.getSeat().getSeatNumber() : "-");
+        t.setBusNumber(saved.getBus() != null ? saved.getBus().getBusNumber() : "-");
+        t.setPassengerName(saved.getPassengerName() != null ? saved.getPassengerName() : "-");
+        t.setBooking(saved);
+
+        ticketRepository.save(t);
+
+        return saved;
     }
 
     public List<Booking> getAllBookings() {

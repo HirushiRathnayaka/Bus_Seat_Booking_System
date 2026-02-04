@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import SeatLayout from "../components/SeatLayout";
 import { getSeatsByBus } from "../api/seatApi";
 import "../styles/main.css";
-import "../styles/SeatSelection.css"; // ✅ new css
+import "../styles/SeatSelection.css"; // new css
 
 export default function SeatSelection() {
   const { busId } = useParams();

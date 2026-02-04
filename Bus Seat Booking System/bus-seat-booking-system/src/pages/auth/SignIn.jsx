@@ -52,19 +52,11 @@ export default function SignIn() {
         </form>
 
         <button
-        type="button"
-        onClick={() => navigate("/admin/login")}
-        style={{
-          background: "#0b5ed7",
-          color: "white",
-          padding: "10px 14px",
-          borderRadius: "8px",
-          border: "none",
-          cursor: "pointer",
-          width: "100%",
-        }}
+          type="button"
+          onClick={() => navigate("/admin/login")}
+          className="admin-btn"
         >
-        Admin Login
+          Admin Login
         </button>
 
         <p>

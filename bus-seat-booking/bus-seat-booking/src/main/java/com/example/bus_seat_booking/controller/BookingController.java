@@ -53,12 +53,13 @@ public class BookingController {
             out.put("ticketNo", createdBooking.getTicketNo());
             out.put("seatNumber", createdBooking.getSeat() != null ? createdBooking.getSeat().getSeatNumber() : "-");
             out.put("busNumber", createdBooking.getBus() != null ? createdBooking.getBus().getBusNumber() : "-");
+            out.put("passengerName", createdBooking.getPassengerName() != null ? createdBooking.getPassengerName() : "-");
 
             return ResponseEntity.ok(out);
 
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(Map.of(
-                    "message", e.getMessage()   // ✅ frontend එකට match
+                    "message", e.getMessage()   //  frontend එකට match
             ));
         }
     }

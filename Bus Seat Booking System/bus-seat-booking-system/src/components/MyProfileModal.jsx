@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
-import { getUserBookings, cancelBooking } from "../api/bookingApi";
+import { getUserTickets } from "../api/ticketApi";
+import { cancelBooking } from "../api/bookingApi";
 import "../styles/profileModal.css"; // or use main.css
 
 export default function MyProfileModal({ onClose }) {
@@ -15,7 +16,7 @@ export default function MyProfileModal({ onClose }) {
     try {
       setLoading(true);
       setErr("");
-      const data = await getUserBookings(user.id);
+      const data = await getUserTickets(user.id);
       setTickets(Array.isArray(data) ? data : []);
     } catch (e) {
       setErr("Failed to load tickets");
@@ -80,9 +81,9 @@ export default function MyProfileModal({ onClose }) {
               </thead>
               <tbody>
                 {tickets.map((t) => (
-                  <tr key={t.id}>
+                  <tr key={t.ticketNo}>
                     <td className="mono">{t.ticketNo}</td>
-                    <td>{t.id}</td>
+                    <td>{t.bookingIdd}</td>
                     <td>{t.seatNumber}</td>
                     <td>{t.busNumber}</td>
                     <td>
@@ -100,7 +101,7 @@ export default function MyProfileModal({ onClose }) {
                       ) : (
                         <button
                           className="btnDanger"
-                          onClick={() => onCancel(t.id)}
+                          onClick={() => onCancel(t.bookingId)}
                           type="button"
                         >
                           Cancel

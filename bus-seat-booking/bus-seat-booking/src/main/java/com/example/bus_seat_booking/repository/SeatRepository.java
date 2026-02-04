@@ -15,4 +15,9 @@ public interface SeatRepository extends JpaRepository<Seat, Long> {
     // admin side mark seats model
     List<Seat> findByReservedTrue();
     List<Seat> findByReservedFalse();
+
+    boolean existsByBusId(Long busId);
+
+
+
 }

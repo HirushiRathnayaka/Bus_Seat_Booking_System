@@ -8,4 +8,5 @@ import java.util.List;
 @Repository
 public interface BusRepository extends JpaRepository<Bus, Long> {
     List<Bus> findByRouteId(Long routeId);
+    Bus findFirstByRouteId(Long routeId);
 }

@@ -39,8 +39,18 @@ public class SeatController {
         return ResponseEntity.ok(createdSeat);
     }
 
+    @GetMapping("/route/{routeId}")
+    public List<Seat> getSeatsByRoute(@PathVariable Long routeId) {
+        return seatService.getSeatsByRouteId(routeId);
+    }
+
     @GetMapping("/test")
     public ResponseEntity<String> test() {
         return ResponseEntity.ok("Seats API is working!");
+
     }
+
+
+
+
 }
