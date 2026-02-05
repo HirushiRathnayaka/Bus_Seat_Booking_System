@@ -19,9 +19,14 @@ export default function MyProfileModal({ onClose }) {
       const data = await getUserTickets(user.id);
       setTickets(Array.isArray(data) ? data : []);
     } catch (e) {
-      setErr("Failed to load tickets");
-      setTickets([]);
-    } finally {
+  console.error("Ticket load error:", e);
+  setErr(
+    e?.response?.data?.message ||
+    `Failed to load tickets (status: ${e?.response?.status || "unknown"})`
+  );
+  setTickets([]);
+}
+finally {
       setLoading(false);
     }
   };
@@ -83,7 +88,7 @@ export default function MyProfileModal({ onClose }) {
                 {tickets.map((t) => (
                   <tr key={t.ticketNo}>
                     <td className="mono">{t.ticketNo}</td>
-                    <td>{t.bookingIdd}</td>
+                    <td>{t.bookingId}</td>
                     <td>{t.seatNumber}</td>
                     <td>{t.busNumber}</td>
                     <td>

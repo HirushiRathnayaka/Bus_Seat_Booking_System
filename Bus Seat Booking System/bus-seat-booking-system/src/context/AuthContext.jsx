@@ -1,22 +1,22 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useEffect, useState } from "react";
 
-export const AuthContext = createContext();
+export const AuthContext = createContext(null);
 
-export const AuthProvider = ({ children }) => {
+export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
+  const [authLoading, setAuthLoading] = useState(true);
 
+  // app refresh (F5) උනත් user restore
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-
-    // ✅ SAFETY CHECK
-    if (storedUser && storedUser !== "undefined") {
-      try {
-        setUser(JSON.parse(storedUser));
-      } catch (error) {
-        console.error("Invalid user data in localStorage", error);
-        localStorage.removeItem("user");
-        setUser(null);
-      }
+    try {
+      const saved = localStorage.getItem("user");
+      if (saved) setUser(JSON.parse(saved));
+    } catch (e) {
+      console.warn("Failed to parse saved user from localStorage");
+      localStorage.removeItem("user");
+      setUser(null);
+    } finally {
+      setAuthLoading(false);
     }
   }, []);
 
@@ -25,14 +25,14 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem("user", JSON.stringify(data));
   };
 
-  const logout = () => {
+  const logoutUser = () => {
     setUser(null);
     localStorage.removeItem("user");
   };
 
   return (
-    <AuthContext.Provider value={{ user, loginUser, logout }}>
+    <AuthContext.Provider value={{ user, authLoading, loginUser, logoutUser }}>
       {children}
     </AuthContext.Provider>
   );
-};
+}

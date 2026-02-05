@@ -1,17 +1,14 @@
 package com.example.bus_seat_booking.config;
 
 import java.util.List;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -27,25 +24,22 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
-                        // Public endpoints
+                        // ✅ Public endpoints
                         .requestMatchers(
                                 "/api/auth/**",
                                 "/api/routes/**",
                                 "/api/buses/**",
                                 "/api/seats/**",
                                 "/api/bookings/**",
-                                "/api/adminAuth/**",
-                                "/api/adminApi/**"
-
+                                "/api/tickets/**"
                         ).permitAll()
 
-                        // Admin only endpoints
+                        // ✅ Admin only endpoints
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
 
-                        // Others require authentication
+                        // ✅ Others require authentication
                         .anyRequest().authenticated()
                 )
-                // Needed for /api/admin/**
                 .httpBasic(Customizer.withDefaults());
 
         return http.build();
@@ -56,18 +50,6 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    // Demo admin user (admin/admin123)
-    @Bean
-    public UserDetailsService userDetailsService(PasswordEncoder encoder) {
-        UserDetails admin = User.withUsername("admin")
-                .password(encoder.encode("admin123"))
-                .roles("ADMIN")
-                .build();
-
-        return new InMemoryUserDetailsManager(admin);
-    }
-
-    // Allow React (localhost:3000) to call Spring Boot
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
@@ -80,5 +62,4 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", config);
         return source;
     }
-
 }

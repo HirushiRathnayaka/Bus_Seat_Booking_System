@@ -2,8 +2,10 @@ import axios from "axios";
 
 const API = "http://localhost:8083/api/auth";
 
-export const login = (data) => axios.post(`${API}/login`, data);
-
+export const login = async (credentials) => {
+  const res = await axios.post(`${API}/login`, credentials);
+  return res.data; // ✅ important: ONLY user object return
+};
 export const register = (data) => axios.post(`${API}/register`, data);
 
 // Add these new API calls

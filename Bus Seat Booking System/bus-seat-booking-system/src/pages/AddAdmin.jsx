@@ -95,7 +95,8 @@ export default function AddAdmin() {
       };
       
       // Call API to create admin
-      const response = await fetch("http://localhost:8081/api/admin/create-admin", {
+     const response = await fetch("http://localhost:8083/api/auth/create-admin", {
+
   method: "POST",
   headers: {
     "Content-Type": "application/json",
@@ -127,7 +128,7 @@ export default function AddAdmin() {
       
       // Redirect after 2 seconds
       setTimeout(() => {
-        navigate("/admin");
+        navigate("/admin/dashboard");
       }, 2000);
       
     } catch (err) {
@@ -154,7 +155,7 @@ export default function AddAdmin() {
             </p>
           </div>
           <button 
-            onClick={() => navigate("/admin")}
+            onClick={() => navigate("/admin/dashboarfd")}
             style={{ background: "#6c757d" }}
           >
             ← Back to Dashboard
@@ -491,7 +492,7 @@ export default function AddAdmin() {
               
               <button
                 type="button"
-                onClick={() => navigate("/admin")}
+                onClick={() => navigate("/admin/dashboard")}
                 disabled={loading}
                 style={{ 
                   background: "#6c757d", 
