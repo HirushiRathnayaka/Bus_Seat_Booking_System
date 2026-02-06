@@ -114,7 +114,7 @@ export default function AddAdmin() {
         throw new Error(data.message || "Failed to create admin");
       }
       
-      setSuccess(`✅ Admin "${adminData.username}" created successfully!`);
+      setSuccess(` Admin "${adminData.username}" created successfully!`);
       
       // Reset form
       setAdminData({
@@ -140,418 +140,201 @@ export default function AddAdmin() {
   };
   
   return (
-    <div className="page">
-      <div style={{ maxWidth: "700px", margin: "0 auto" }}>
-        <div style={{ 
-          display: "flex", 
-          justifyContent: "space-between", 
-          alignItems: "center",
-          marginBottom: "20px" 
-        }}>
+    <div className="page add-admin-page">
+      <div className="add-admin-wrap">
+        {/* Header */}
+        <div className="add-admin-top">
           <div>
-            <h1 style={{ marginBottom: "5px" }}>➕ Create New Admin</h1>
-            <p style={{ color: "#666" }}>
+            <h1 className="add-admin-title">
+              Create New Admin
+            </h1>
+            <p className="add-admin-subtitle">
               Add a new administrator to the bus booking system
             </p>
           </div>
-          <button 
-            onClick={() => navigate("/admin/dashboarfd")}
-            style={{ background: "#6c757d" }}
+
+          <button
+            className="btn btn-muted"
+            onClick={() => navigate("/admin/dashboard")}
+            type="button"
           >
             ← Back to Dashboard
           </button>
         </div>
-        
-        {/* Current Admin Info */}
-        {user && user.role === "ADMIN" && (
-          <div style={{ 
-            background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)", 
-            color: "white", 
-            padding: "15px", 
-            borderRadius: "10px",
-            marginBottom: "20px"
-          }}>
-            <p style={{ margin: 0 }}>
-              <strong>Logged in as:</strong> {user.username} (ADMIN)
-            </p>
+
+        {/* Logged in card */}
+        {user?.role === "ADMIN" && (
+          <div className="admin-badge-card">
+            <b>Logged in as:</b> {user.username} (ADMIN)
           </div>
         )}
-        
-        {/* Error Message */}
-        {error && (
-          <div style={{ 
-            background: "#fee", 
-            color: "#dc3545", 
-            padding: "15px", 
-            borderRadius: "10px", 
-            marginBottom: "20px",
-            border: "1px solid #f5c6cb"
-          }}>
-            <strong>Error:</strong> {error}
-          </div>
-        )}
-        
-        {/* Success Message */}
-        {success && (
-          <div style={{ 
-            background: "#d4edda", 
-            color: "#155724", 
-            padding: "15px", 
-            borderRadius: "10px", 
-            marginBottom: "20px",
-            border: "1px solid #c3e6cb"
-          }}>
-            <strong>Success!</strong> {success}
-          </div>
-        )}
-        
-        {/* Main Form */}
-        <div style={{ 
-          background: "white", 
-          padding: "30px", 
-          borderRadius: "15px",
-          boxShadow: "0 5px 20px rgba(0,0,0,0.1)",
-          marginBottom: "30px"
-        }}>
-          <form onSubmit={handleSubmit}>
-            <div style={{ marginBottom: "30px" }}>
-              <h3 style={{ 
-                marginBottom: "20px", 
-                color: "#333",
-                paddingBottom: "10px",
-                borderBottom: "2px solid #f0f0f0"
-              }}>
-                Admin Information
-              </h3>
-              
-              <div style={{ display: "flex", gap: "20px", marginBottom: "20px" }}>
-                <div style={{ flex: 1 }}>
-                  <label style={{ 
-                    display: "block", 
-                    marginBottom: "8px", 
-                    fontWeight: "600",
-                    color: "#555"
-                  }}>
-                    First Name *
-                  </label>
+
+        {/* Alerts */}
+        {error && <div className="alert alert-error"><b>Error:</b> {error}</div>}
+        {success && <div className="alert alert-success"><b>Success!</b> {success}</div>}
+
+        {/* Form Card */}
+        <div className="glass-card">
+          <form onSubmit={handleSubmit} className="add-admin-form">
+            <div className="form-section">
+              <h3 className="section-title">Admin Information</h3>
+
+              <div className="grid-2">
+                <div className="field">
+                  <label>First Name </label>
                   <input
                     type="text"
                     name="firstName"
                     placeholder="Enter first name"
                     value={adminData.firstName}
                     onChange={handleChange}
-                    style={{ width: "100%" }}
-                    required
                     disabled={loading}
+                    required
                   />
                 </div>
-                
-                <div style={{ flex: 1 }}>
-                  <label style={{ 
-                    display: "block", 
-                    marginBottom: "8px", 
-                    fontWeight: "600",
-                    color: "#555"
-                  }}>
-                    Last Name *
-                  </label>
+
+                <div className="field">
+                  <label>Last Name </label>
                   <input
                     type="text"
                     name="lastName"
                     placeholder="Enter last name"
                     value={adminData.lastName}
                     onChange={handleChange}
-                    style={{ width: "100%" }}
-                    required
                     disabled={loading}
+                    required
                   />
                 </div>
               </div>
-              
-              <div style={{ marginBottom: "20px" }}>
-                <label style={{ 
-                  display: "block", 
-                  marginBottom: "8px", 
-                  fontWeight: "600",
-                  color: "#555"
-                }}>
-                  Username *
-                </label>
+
+              <div className="field">
+                <label>Username </label>
                 <input
                   type="text"
                   name="username"
                   placeholder="Choose a username"
                   value={adminData.username}
                   onChange={handleChange}
-                  style={{ width: "100%" }}
-                  required
                   disabled={loading}
+                  required
                 />
-                <small style={{ 
-                  color: "#666", 
-                  display: "block", 
-                  marginTop: "5px",
-                  fontSize: "0.9rem"
-                }}>
-                  This will be used for login
-                </small>
+                <small>This will be used for login</small>
               </div>
-              
-              <div style={{ marginBottom: "20px" }}>
-                <label style={{ 
-                  display: "block", 
-                  marginBottom: "8px", 
-                  fontWeight: "600",
-                  color: "#555"
-                }}>
-                  Email Address *
-                </label>
+
+              <div className="field">
+                <label>Email Address </label>
                 <input
                   type="email"
                   name="email"
                   placeholder="admin@example.com"
                   value={adminData.email}
                   onChange={handleChange}
-                  style={{ width: "100%" }}
-                  required
                   disabled={loading}
+                  required
                 />
               </div>
             </div>
-            
-            <div style={{ marginBottom: "30px" }}>
-              <h3 style={{ 
-                marginBottom: "20px", 
-                color: "#333",
-                paddingBottom: "10px",
-                borderBottom: "2px solid #f0f0f0"
-              }}>
-                Security Settings
-              </h3>
-              
-              <div style={{ marginBottom: "20px" }}>
-                <label style={{ 
-                  display: "block", 
-                  marginBottom: "8px", 
-                  fontWeight: "600",
-                  color: "#555"
-                }}>
-                  Password *
-                </label>
+
+            <div className="form-section">
+              <h3 className="section-title">Security Settings</h3>
+
+              <div className="field">
+                <label>Password </label>
                 <input
                   type="password"
                   name="password"
                   placeholder="At least 6 characters"
                   value={adminData.password}
                   onChange={handleChange}
-                  style={{ width: "100%" }}
-                  minLength="6"
-                  required
+                  minLength={6}
                   disabled={loading}
+                  required
                 />
-                <small style={{ 
-                  color: "#666", 
-                  display: "block", 
-                  marginTop: "5px",
-                  fontSize: "0.9rem"
-                }}>
-                  Password must be at least 6 characters long
-                </small>
+                <small>Password must be at least 6 characters long</small>
               </div>
-              
-              <div style={{ marginBottom: "20px" }}>
-                <label style={{ 
-                  display: "block", 
-                  marginBottom: "8px", 
-                  fontWeight: "600",
-                  color: "#555"
-                }}>
-                  Confirm Password *
-                </label>
+
+              <div className="field">
+                <label>Confirm Password </label>
                 <input
                   type="password"
                   name="confirmPassword"
                   placeholder="Re-enter password"
                   value={adminData.confirmPassword}
                   onChange={handleChange}
-                  style={{ width: "100%" }}
-                  required
                   disabled={loading}
+                  required
                 />
               </div>
             </div>
-            
-            {/* Admin Permissions */}
-            <div style={{ 
-              background: "#f8f9fa", 
-              padding: "20px", 
-              borderRadius: "10px",
-              marginBottom: "30px"
-            }}>
-              <h4 style={{ 
-                marginBottom: "15px", 
-                color: "#333",
-                display: "flex",
-                alignItems: "center",
-                gap: "10px"
-              }}>
-                <span style={{ 
-                  background: "#dc3545", 
-                  color: "white", 
-                  width: "30px", 
-                  height: "30px", 
-                  borderRadius: "50%",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontSize: "1.2rem"
-                }}>
-                  ⚡
-                </span>
-                Admin Permissions
-              </h4>
-              <div style={{ 
-                display: "grid", 
-                gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", 
-                gap: "10px" 
-              }}>
-                <div style={{ 
-                  background: "white", 
-                  padding: "15px", 
-                  borderRadius: "8px",
-                  border: "1px solid #e9ecef"
-                }}>
-                  <strong>🔐 Full System Access</strong>
-                  <p style={{ margin: "5px 0 0", color: "#666", fontSize: "0.9rem" }}>
-                    Complete control over all features
-                  </p>
+
+            {/* Permissions */}
+            <div className="perm-card">
+              <div className="perm-title">
+                <h4>Admin Permissions</h4>
+              </div>
+
+              <div className="perm-grid">
+                <div className="perm-item">
+                  <b> Full System Access</b>
+                  <p>Complete control over all features</p>
                 </div>
-                <div style={{ 
-                  background: "white", 
-                  padding: "15px", 
-                  borderRadius: "8px",
-                  border: "1px solid #e9ecef"
-                }}>
-                  <strong>👥 User Management</strong>
-                  <p style={{ margin: "5px 0 0", color: "#666", fontSize: "0.9rem" }}>
-                    Create, edit, and delete users
-                  </p>
+                <div className="perm-item">
+                  <b> User Management</b>
+                  <p>Create, edit, and delete users</p>
                 </div>
-                <div style={{ 
-                  background: "white", 
-                  padding: "15px", 
-                  borderRadius: "8px",
-                  border: "1px solid #e9ecef"
-                }}>
-                  <strong>📊 Analytics Access</strong>
-                  <p style={{ margin: "5px 0 0", color: "#666", fontSize: "0.9rem" }}>
-                    View system statistics and reports
-                  </p>
+                <div className="perm-item">
+                  <b> Analytics Access</b>
+                  <p>View system statistics and reports</p>
                 </div>
-                <div style={{ 
-                  background: "white", 
-                  padding: "15px", 
-                  borderRadius: "8px",
-                  border: "1px solid #e9ecef"
-                }}>
-                  <strong>⚙️ System Settings</strong>
-                  <p style={{ margin: "5px 0 0", color: "#666", fontSize: "0.9rem" }}>
-                    Configure system parameters
-                  </p>
+                <div className="perm-item">
+                  <b> System Settings</b>
+                  <p>Configure system parameters</p>
                 </div>
               </div>
             </div>
-            
-            {/* Form Actions */}
-            <div style={{ display: "flex", gap: "15px" }}>
-              <button
-                type="submit"
-                disabled={loading}
-                style={{ 
-                  flex: 2, 
-                  padding: "15px 20px",
-                  fontSize: "1.1rem",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: "10px"
-                }}
-              >
+
+            {/* Actions */}
+            <div className="form-actions">
+              <button className="btn btn-primary" type="submit" disabled={loading}>
                 {loading ? (
                   <>
-                    <span className="loading-spinner"></span>
-                    Creating Admin...
+                    <span className="loading-spinner" /> Creating Admin...
                   </>
                 ) : (
-                  <>
-                    <span style={{ fontSize: "1.2rem" }}>✓</span>
-                    Create Admin Account
-                  </>
+                  <>✓ Create Admin Account</>
                 )}
               </button>
-              
+
               <button
+                className="btn btn-muted"
                 type="button"
                 onClick={() => navigate("/admin/dashboard")}
                 disabled={loading}
-                style={{ 
-                  background: "#6c757d", 
-                  flex: 1, 
-                  padding: "15px 20px"
-                }}
               >
                 Cancel
               </button>
             </div>
           </form>
         </div>
-        
-        {/* Important Notes */}
-        <div style={{ 
-          background: "#fff3cd", 
-          padding: "20px", 
-          borderRadius: "10px",
-          border: "1px solid #ffeaa7"
-        }}>
-          <h4 style={{ 
-            marginBottom: "10px", 
-            color: "#856404",
-            display: "flex",
-            alignItems: "center",
-            gap: "10px"
-          }}>
-            <span style={{ fontSize: "1.2rem" }}>⚠️</span>
-            Important Notes
-          </h4>
-          <ul style={{ 
-            color: "#856404", 
-            margin: "0", 
-            paddingLeft: "20px",
-            fontSize: "0.95rem"
-          }}>
-            <li>Admin accounts have <strong>full system access</strong></li>
+
+        {/* Notes */}
+        <div className="note-card">
+          <h4> Important Notes</h4>
+          <ul>
+            <li>Admin accounts have <b>full system access</b></li>
             <li>Keep admin credentials secure and confidential</li>
-            <li>Each admin should use a <strong>unique email address</strong></li>
+            <li>Each admin should use a <b>unique email address</b></li>
             <li>Regularly review and audit admin accounts</li>
             <li>Admins can create other admin accounts</li>
             <li>Default admin account cannot be deleted</li>
           </ul>
         </div>
-        
-        {/* Quick Links */}
-        <div style={{ marginTop: "30px", textAlign: "center" }}>
-          <p style={{ color: "#666", marginBottom: "15px" }}>
-            Need to manage existing users?
-          </p>
-          <button 
-            onClick={() => navigate("/manage-users")}
-            style={{ 
-              background: "transparent", 
-              color: "#007bff",
-              border: "2px solid #007bff"
-            }}
-          >
-            👥 Go to User Management
+
+        {/* Quick link */}
+        <div className="quick-link">
+          <p>Need to manage existing users?</p>
+          <button className="btn btn-outline" onClick={() => navigate("/manage-users")}>
+             Go to User Management
           </button>
         </div>
       </div>

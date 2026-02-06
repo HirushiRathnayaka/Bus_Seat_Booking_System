@@ -79,7 +79,6 @@ const Home = () => {
     <div className="page">
       <div className="container">
         <h1 className="page-title ">
-          <span className="bus-icon">🚌</span>
           <span className="title-text"> Bus Seat Booking System</span>
         </h1>
         <p className="page-subtitle">Select your route to continue</p>

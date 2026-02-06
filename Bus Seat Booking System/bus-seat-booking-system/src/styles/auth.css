@@ -425,28 +425,116 @@ body, html {
   color: #333;
 }
 
-.auth-linkbtn {
-  margin-top: 18px;
-  width: 100%;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  color: #0b5ed7;
-  font-weight: 700;
+
+.admin-login-link{
+  margin-top: 14px;
   text-align: center;
+  font-size: 14px;
+  color: #6b7280;
 }
 
-.admin-btn{
-  background:#0b5ed7;
-  color:white;
-  padding:10px 14px;
-  border-radius:8px;
-  border:none;
-  cursor:pointer;
-  width:100%;
+.admin-text-btn{
+  background: none;
+  border: none;
+  padding: 0;
+  margin-left: 4px;
+  color: #2563eb;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.admin-text-btn:hover{
+  text-decoration: underline;
+}
+
+:root{
+  --signin-btn-w: 133px;  /* change if you want bigger/smaller */
+  --signin-gap: 14px;
+}
+
+/* Make password + button in one row */
+.signin-row{
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 6px;
+}
+
+.signin-row .password-input{
+  flex: 1;
+  margin-bottom: 0;
+}
+
+
+/* Sign in button */
+.signin-btn{
+  width: auto;
+  padding: 15px 22px;
+  margin-top: 0;
+  white-space: nowrap;
+  border-radius: 12px;
+}
+
+/* Username row */
+.username-row .username-input{
+  width: calc(100% - var(--signin-btn-w) - var(--signin-gap));
+}
+
+/* Back to Sign In button */
+.auth-linkbtn {
+  background: none;
+  border: none;
+
+  margin: 18px auto 0;
+  padding: 10px 14px;
+
+  font-size: 14px;
+  font-weight: 600;
+  color: #3f75eb;
+
+  cursor: pointer;
+  border-radius: 10px;
+
+  display: flex;;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  transition: all 0.25s ease;
+  
+}
+
+/* hover effect */
+.auth-linkbtn:hover {
+  background: rgba(11, 94, 215, 0.08);
+  transform: translateY(-1px);
+}
+
+/* click */
+.auth-linkbtn:active {
+  transform: translateY(0);
+}
+
+/* keyboard accessibility */
+.auth-linkbtn:focus-visible {
+  outline: 2px solid rgba(57, 125, 227, 0.6);
+  outline-offset: 3px;
+}
+
+.admin-error {
   margin-top: 12px;
+  text-align: center;     
+  color: #dc2626;
+  font-size: 14px;
+  font-weight: 600;
 }
-.admin-btn:hover{
-  filter: brightness(0.95);
-}
+
+
+
+
+
+
+
+
+
 

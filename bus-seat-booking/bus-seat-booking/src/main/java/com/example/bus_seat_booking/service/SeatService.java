@@ -28,13 +28,22 @@ public class SeatService {
             return;
         }
 
+        char row = 'A';
+        int col = 1;
+
         for (int i = 1; i <= totalSeats; i++) {
             Seat seat = new Seat();
             seat.setSeatNumber("S" + i);
-            seat.setBooked(false);
+            seat.setSeatNumber(row + String.valueOf(col));
             seat.setBus(bus);
 
             seatRepository.save(seat);
+
+            col++;
+            if (col > 4) {
+                col = 1;
+                row++;
+            }
         }
     }
 

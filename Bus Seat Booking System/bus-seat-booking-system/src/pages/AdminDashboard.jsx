@@ -31,7 +31,7 @@ export default function AdminDashboard() {
   const [showDeleteSchedule, setShowDeleteSchedule] = useState(false);
   const [showAddRoute, setShowAddRoute] = useState(false);
 
-  // ✅ logout handler
+  //  logout handler
   const handleAdminLogout = () => {
     adminLogout();
     logoutUser();
@@ -83,7 +83,7 @@ export default function AdminDashboard() {
   const uniqueUsers = new Set(bookings.map((b) => b.user?.id).filter(Boolean))
     .size;
 
-  // ✅ Generate Report (CSV)
+  //  Generate Report (CSV)
   const downloadCSV = () => {
     if (!bookings || bookings.length === 0) {
       alert("No bookings to export");
@@ -197,7 +197,7 @@ export default function AdminDashboard() {
           onClick={() => setOpenMenu((s) => !s)}
           type="button"
         >
-          ⚙️ Admin Actions ▾
+           Admin Actions ▾
         </button>
 
         {openMenu && (
@@ -210,7 +210,7 @@ export default function AdminDashboard() {
               }}
               type="button"
             >
-              ➕ Add Bus Schedule
+               Add Bus Schedule
             </button>
 
             <button
@@ -221,7 +221,7 @@ export default function AdminDashboard() {
               }}
               type="button"
             >
-              ➕ Add Route
+               Add Route
             </button>
 
             <button
@@ -232,7 +232,7 @@ export default function AdminDashboard() {
               }}
               type="button"
             >
-              🪑 Mark Seats
+               Mark Seats
             </button>
 
             <button
@@ -243,7 +243,7 @@ export default function AdminDashboard() {
               }}
               type="button"
             >
-              🗑️ Delete Bus Schedule
+               Delete Bus Schedule
             </button>
 
             {/* ✅ Export CSV */}
@@ -255,7 +255,7 @@ export default function AdminDashboard() {
               }}
               type="button"
             >
-              📄 Export Bookings (CSV)
+               Export Bookings (CSV)
             </button>
 
             {/* ✅ Logout */}
@@ -264,7 +264,7 @@ export default function AdminDashboard() {
               onClick={handleAdminLogout}
               type="button"
             >
-              🚪 Logout
+               Logout
             </button>
           </div>
         )}
@@ -311,7 +311,7 @@ export default function AdminDashboard() {
             marginBottom: "30px",
           }}
         >
-          <h3 style={{ marginBottom: "15px" }}>⚡ Admin Actions</h3>
+          <h3 style={{ marginBottom: "15px" }}> Admin Actions</h3>
 
           <div
             style={{
@@ -320,8 +320,8 @@ export default function AdminDashboard() {
               gap: "15px",
             }}
           >
-            <Link to="/add-admin" style={{ textDecoration: "none" }}>
-              <div
+            <Link to="/add-admin" style={{ textDecoration: "none", color: "inherit" }}>
+              <div 
                 style={{
                   background: "rgba(255,255,255,0.2)",
                   padding: "15px",
@@ -329,6 +329,7 @@ export default function AdminDashboard() {
                   textAlign: "center",
                   cursor: "pointer",
                   border: "1px solid rgba(255,255,255,0.3)",
+                  
                 }}
               >
                 <h4
@@ -338,9 +339,10 @@ export default function AdminDashboard() {
                     alignItems: "center",
                     justifyContent: "center",
                     gap: "8px",
+                    
                   }}
                 >
-                  <span>➕</span> Add Admin
+                   Add Admin
                 </h4>
                 <p style={{ margin: 0, fontSize: "0.9rem", opacity: 0.9 }}>
                   Create new admin account
@@ -348,7 +350,7 @@ export default function AdminDashboard() {
               </div>
             </Link>
 
-            {/* ✅ Generate Report card */}
+            {/*  Generate Report card */}
             <div
               onClick={downloadCSV}
               style={{
@@ -369,7 +371,7 @@ export default function AdminDashboard() {
                   gap: "8px",
                 }}
               >
-                <span>📊</span> Generate Report
+                Generate Report
               </h4>
               <p style={{ margin: 0, fontSize: "0.9rem", opacity: 0.9 }}>
                 Export booking data (CSV)
@@ -396,7 +398,7 @@ export default function AdminDashboard() {
                   gap: "8px",
                 }}
               >
-                <span>👥</span> Manage Users
+                 Manage Users
               </h4>
               <p style={{ margin: 0, fontSize: "0.9rem", opacity: 0.9 }}>
                 View all system users

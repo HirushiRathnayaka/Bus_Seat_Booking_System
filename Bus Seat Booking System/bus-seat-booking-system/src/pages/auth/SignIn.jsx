@@ -43,25 +43,30 @@ export default function SignIn() {
         {error && <p className="auth-error">{error}</p>}
 
         <form onSubmit={handleSubmit}>
-          <input name="username" placeholder="Username" value={credentials.username} onChange={handleChange} required/>
-          <input name="password" type="password" placeholder="Password" value={credentials.password} onChange={handleChange} required/>
+          <div className="username-row">
+            <input className="username-input" name="username" placeholder="Username" value={credentials.username} onChange={handleChange} required/>
+          </div>
 
-          <button type="submit" disabled={loading}>
+          <div className="signin-row">
+            <input className="password-input" name="password" type="password" placeholder="Password" value={credentials.password} onChange={handleChange} required/>
+
+          <button className="signin-btn" type="submit" disabled={loading}>
             {loading ? "Signing in..." : "Sign In"}
-          </button>
+          </button>  
+          </div>
         </form>
 
-        <button
-          type="button"
-          onClick={() => navigate("/admin/login")}
-          className="admin-btn"
-        >
-          Admin Login
-        </button>
+        <div className="admin-login-link">
+          <p>
+            Don't have an account? <a href="/register">Sign up</a>
+          </p>
 
-        <p>
-          Don't have an account? <a href="/register">Sign up</a>
-        </p>
+          <p>
+            <span className="auth-link admin-link" >
+              Sign in as an administrator: <a href="/admin/login">Admin</a>
+            </span>
+          </p>
+        </div>
       </div>
     </div>
   );

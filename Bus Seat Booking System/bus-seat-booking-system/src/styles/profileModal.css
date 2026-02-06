@@ -1,3 +1,242 @@
+
+/* Backdrop */
+.modal-backdrop{
+  position: fixed;
+  inset: 0;
+  background: rgba(9, 18, 35, 0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 9999;
+}
+
+/* Modal card */
+.modal-card{
+  width: min(900px, 96vw);
+  background: #fff;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 18px 50px rgba(0,0,0,0.22);
+  border: 1px solid rgba(0,0,0,0.06);
+  transform: translateY(0);
+}
+
+.modal-lg{
+  max-width: 980px;
+}
+
+/* Header */
+.modal-head{
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  background: linear-gradient(90deg, #a7d6df, #d8f1ff);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+
+.modal-head h3{
+  margin: 0;
+  font-size: 22px;
+  font-weight: 800;
+  color: #0b1b2b;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Close (X) */
+.modal-x{
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: 1px solid rgba(0,0,0,0.12);
+  background: rgba(255,255,255,0.85);
+  cursor: pointer;
+  font-size: 22px;
+  line-height: 1;
+  font-weight: 800;
+  color: #0b1b2b;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform .12s ease, background .12s ease, box-shadow .12s ease;
+}
+
+.modal-x:hover{
+  transform: translateY(-1px);
+  background: #fff;
+  box-shadow: 0 10px 18px rgba(0,0,0,0.12);
+}
+
+/* Top profile info */
+.profileTop{
+  padding: 14px 16px 6px;
+  background: #f8fafc;
+}
+
+.profileRow{
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+  color: #0b1b2b;
+  margin: 6px 0;
+}
+
+.profileRow b{
+  min-width: 60px;
+}
+
+/* Section title */
+.sectionTitle{
+  margin: 10px 16px 8px;
+  color: #0b1b2b;
+  font-weight: 900;
+}
+
+/* Messages */
+.msg{
+  margin: 10px 16px 0;
+  padding: 10px 12px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.msg.error{
+  background: rgba(239, 68, 68, 0.10);
+  border: 1px solid rgba(239, 68, 68, 0.20);
+  color: #b91c1c;
+}
+
+/* Table wrapper */
+.tableWrap{
+  padding: 10px 16px 0;
+  overflow: auto;
+}
+
+/* Table */
+.profileTable{
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #fff;
+}
+
+.profileTable thead th{
+  text-align: left;
+  font-size: 14px;
+  font-weight: 900;
+  color: #0b1b2b;
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(0,0,0,0.10);
+  white-space: nowrap;
+}
+
+.profileTable tbody td{
+  padding: 12px;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  color: #0b1b2b;
+  font-size: 14px;
+  vertical-align: middle;
+}
+
+.profileTable tbody tr:hover{
+  background: rgba(11,27,43,0.03);
+}
+
+/* Ticket no mono */
+.mono{
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-weight: 700;
+}
+
+/* Status pills */
+.pillConfirmed,
+.pillCancelled{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-weight: 900;
+  font-size: 12px;
+  letter-spacing: .3px;
+}
+
+.pillConfirmed{
+  background: #22c55e;
+  color: #fff;
+}
+
+.pillCancelled{
+  background: rgba(239,68,68,0.12);
+  color: #b91c1c;
+  border: 1px solid rgba(239,68,68,0.25);
+}
+
+/* Buttons */
+.btnDanger,
+.btnDisabled,
+.btn-secondary{
+  height: 34px;
+  padding: 0 12px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 900;
+  cursor: pointer;
+  transition: transform .12s ease, opacity .12s ease, box-shadow .12s ease;
+}
+
+.btnDanger{
+  background: #ef4444;
+  color: #fff;
+  box-shadow: 0 10px 16px rgba(239,68,68,0.18);
+}
+
+.btnDanger:hover{
+  transform: translateY(-1px);
+}
+
+.btnDisabled{
+  background: #e5e7eb;
+  color: #6b7280;
+  cursor: not-allowed;
+}
+
+.btn-secondary{
+  background: #e5e7eb;
+  color: #0b1b2b;
+}
+
+.btn-secondary:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 10px 16px rgba(0,0,0,0.10);
+}
+
+/* Footer actions */
+.modal-actions{
+  padding: 12px 16px 16px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+/* Loading / Empty */
+.modal-loading,
+.modal-empty{
+  padding: 18px 0 26px;
+  text-align: center;
+  font-weight: 800;
+  color: #334155;
+}
+
+/* Optional: top right profile button area */
 .topRightProfile{
   position: absolute;
   top: 18px;
@@ -12,16 +251,43 @@
   color: #0b1b2b;
 }
 
-.sectionTitle{
-  margin: 10px 0;
-  color: #0b1b2b;
-}
+/* Responsive */
+@media (max-width: 640px){
+  .modal-head h3{
+    font-size: 18px;
+  }
 
-.pillConfirmed{
-  padding: 6px 10px;
-  border-radius: 999px;
-  font-weight: 700;
-  font-size: 12px;
-  background: #1db954;
-  color: #fff;
+  .profileRow{
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .profileRow b{
+    min-width: auto;
+  }
+
+  .profileTable thead{
+    display: none;
+  }
+
+  .profileTable, .profileTable tbody, .profileTable tr, .profileTable td{
+    display: block;
+    width: 100%;
+  }
+
+  .profileTable tbody td{
+    border-bottom: none;
+    padding: 10px 12px;
+  }
+
+  .profileTable tbody tr{
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: 14px;
+    margin-bottom: 10px;
+    overflow: hidden;
+  }
+
+  .modal-actions{
+    justify-content: center;
+  }
 }

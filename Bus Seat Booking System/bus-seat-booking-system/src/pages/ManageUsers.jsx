@@ -46,7 +46,7 @@ export default function ManageUsers() {
       setErr("");
       setMsg("");
       await updateUserRoleAdmin(userId, "ADMIN");
-      setMsg("✅ User promoted to ADMIN");
+      setMsg(" User promoted to ADMIN");
       load();
     } catch (e) {
       setErr(e?.response?.data?.message || e?.message || "Role update failed");
@@ -59,7 +59,7 @@ export default function ManageUsers() {
       setErr("");
       setMsg("");
       await updateUserRoleAdmin(userId, "USER");
-      setMsg("✅ Admin privileges removed");
+      setMsg(" Admin privileges removed");
       load();
     } catch (e) {
       setErr(e?.response?.data?.message || e?.message || "Role update failed");
@@ -72,7 +72,7 @@ export default function ManageUsers() {
       setErr("");
       setMsg("");
       await deleteUserAdmin(userId);
-      setMsg("✅ User deleted");
+      setMsg(" User deleted");
       load();
     } catch (e) {
       setErr(e?.response?.data?.message || e?.message || "Delete failed");
@@ -90,7 +90,7 @@ export default function ManageUsers() {
   return (
     <div className="page">
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
-        <h1>👥 Manage Users</h1>
+        <h1 className="manage-users-title">Manage Users</h1>
 
         <div style={{ display: "flex", gap: 10 }}>
           <button className="btn-ghost" onClick={() => navigate("/admin/dashboard")} type="button">
@@ -98,7 +98,7 @@ export default function ManageUsers() {
           </button>
 
           <button className="btn-primary" onClick={() => navigate("/add-admin")} type="button" style={{ background: "#28a745" }}>
-            ➕ Add New Admin
+             Add New Admin
           </button>
         </div>
       </div>

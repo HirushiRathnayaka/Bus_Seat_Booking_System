@@ -21,18 +21,18 @@ export default function AdminLogin() {
     try {
       const basic = btoa(username + ":" + password);
 
-      // ✅ verify admin credentials
+      //  verify admin credentials
       await axios.get("http://localhost:8083/api/admin/hello", {
         headers: { Authorization: "Basic " + basic },
       });
 
-      // ✅ SAVE creds (IMPORTANT)
+      //  SAVE creds (IMPORTANT)
       setAdminCreds(username, password);
 
-      // ✅ check saved (debug)
+      //  check saved (debug)
       console.log("SAVED:", localStorage.getItem("adminUser"), localStorage.getItem("adminPass"));
 
-      // ✅ set AuthContext
+      //  set AuthContext
       loginUser({ username, role: "ADMIN" });
 
       navigate("/admin/dashboard");
@@ -77,7 +77,7 @@ export default function AdminLogin() {
           </button>
         </form>
 
-        {error && <p style={{ color: "red" }}>{error}</p>}
+        {error && <p className="admin-error">{error}</p>}
 
         <button
           className="auth-linkbtn"
