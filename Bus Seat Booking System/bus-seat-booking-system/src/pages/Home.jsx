@@ -11,8 +11,10 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const { user } = useContext(AuthContext);
+  const { user, logoutUser } = useContext(AuthContext);
   const [showProfile, setShowProfile] = useState(false);
+  
+
 
   useEffect(() => {
     loadRoutes();
@@ -31,6 +33,17 @@ const Home = () => {
       setLoading(false);
     }
   };
+
+  const handleLogout = () => {
+  logoutUser();
+
+  // (optional) also clear admin creds if you store them
+  localStorage.removeItem("adminUser");
+  localStorage.removeItem("adminPass");
+
+  navigate("/login");
+};
+
 
   const handleSelectRoute = (routeId) => {
     navigate(`/buses/${routeId}`);
@@ -116,9 +129,10 @@ const Home = () => {
           )}
         </div>
         <div className="busFooter">
-        <button className="btn-ghost" onClick={() => navigate("/login")} type="button">
-          Back to Login
-        </button>
+        <button className="btn-ghost" onClick={handleLogout} type="button">
+  Logout
+</button>
+
       </div>
     </div>
     </div>

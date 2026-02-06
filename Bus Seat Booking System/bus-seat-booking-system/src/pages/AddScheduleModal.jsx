@@ -79,7 +79,7 @@ export default function AddScheduleModal({ onClose }) {
     <div className="modal-backdrop" onMouseDown={onClose}>
       <div className="modal-card" onMouseDown={(e)=>e.stopPropagation()}>
         <div className="modal-head">
-          <h3>➕ Add Bus Schedule</h3>
+          <h3>➕ Add New Bus</h3>
           <button className="modal-x" onClick={onClose}>×</button>
         </div>
 
@@ -103,11 +103,11 @@ export default function AddScheduleModal({ onClose }) {
             </div>
           )}
 
-          <label>Bus</label>
+          <label>Bus Number</label>
           <input
             value={busId}
             onChange={(e)=>setBusId(e.target.value)}
-            placeholder="ex: 16"
+            placeholder="ex:NC 1617"
           />
 
           <label>Date</label>

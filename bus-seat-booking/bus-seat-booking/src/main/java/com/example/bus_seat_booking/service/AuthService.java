@@ -41,8 +41,11 @@ public class AuthService {
     }
 
     public User login(String username, String password) {
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("User not found with username: " + username));
+        String key = (username == null) ? "" : username.trim();
+
+        User user = userRepository.findByUsernameIgnoreCase(key)
+                .or(() -> userRepository.findByEmailIgnoreCase(key))
+                .orElseThrow(() -> new RuntimeException("User not found: " + key));
 
         if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new RuntimeException("Invalid password");
@@ -50,6 +53,7 @@ public class AuthService {
 
         return user;
     }
+
 
     public User getUserById(Long id) {
         return userRepository.findById(id)

@@ -4,6 +4,7 @@ import { getAdminCreds } from "./adminAuth";
 const API_URL = "http://localhost:8083/api/admin";
 const PUBLIC_API_URL = "http://localhost:8083/api";
 
+
 const api = axios.create({
   baseURL: API_URL,
   headers: {
@@ -107,7 +108,7 @@ export const getBusesByRoute = async (routeId) => {
 // Bus schedule
 export const createSchedule = async (payload) => {
   try {
-    const response = await api.post("/schedules", payload);
+    const response = await publicApi.post("/buses", payload);
     return response.data;
   } catch (error) {
     throw toError(error, "Failed to fetch schedules");
