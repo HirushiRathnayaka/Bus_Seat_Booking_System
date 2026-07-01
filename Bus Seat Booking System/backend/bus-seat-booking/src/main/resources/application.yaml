@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: bus-seat-booking
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/bus_system
+    username: root
+    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+server:
+  port: 8083
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+    com.example.bus_seat_booking: DEBUG

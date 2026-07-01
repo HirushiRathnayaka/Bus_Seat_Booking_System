@@ -1,0 +1,75 @@
+.routes-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+  margin-top: 40px;
+  align-items: stretch;
+}
+
+.route-card {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  border-radius: 28px;
+  min-height: 140px;
+  padding: 28px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.14);
+  box-shadow: 0 20px 70px rgba(0, 0, 0, 0.20);
+  backdrop-filter: blur(16px);
+  transition: transform 0.24s ease, box-shadow 0.24s ease, background 0.24s ease;
+}
+
+.route-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(83, 101, 255, 0.16), rgba(168, 62, 207, 0.16));
+  pointer-events: none;
+}
+
+.route-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 30px 100px rgba(0, 0, 0, 0.26);
+  background: rgba(255,255,255,0.12);
+}
+
+.route-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.route-text {
+  color: #f8fbff;
+  font-size: clamp(1.6rem, 2vw, 2.2rem);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
+
+.route-arrow {
+  color: rgba(247,248,255,0.95);
+  font-size: 2.2rem;
+  opacity: 0.98;
+  transition: transform 0.24s ease;
+}
+
+.route-card:hover .route-arrow {
+  transform: translateX(6px);
+}
+
+.route-card::after {
+  content: "";
+  position: absolute;
+  right: -35px;
+  top: -35px;
+  width: 160px;
+  height: 160px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 50%;
+  filter: blur(20px);
+  pointer-events: none;
+}
